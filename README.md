@@ -1,5 +1,7 @@
 # pantry_scheduler
 
+Tracking issues in priority can be found here https://waffle.io/rubyforgood/pantry_scheduler.
+
 Scheduling system for Elizabeth House Food Pantry.  This app will allow volunteers to log in and create appointments for clients.  Other volunteers will log in and check clients in.  Reports will be generated and mailed monthly, quarterly and yearly.
 
 ## Development
