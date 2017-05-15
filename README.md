@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/rubyforgood/pantry_scheduler.png?label=ready&title=Ready)](https://waffle.io/rubyforgood/pantry_scheduler?utm_source=badge)
 # pantry_scheduler
 
 Tracking issues in priority can be found here https://waffle.io/rubyforgood/pantry_scheduler.
