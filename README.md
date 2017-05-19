@@ -33,3 +33,8 @@ Install node and yarn
 
     $ brew install node yarn
 
+Running the front-end React application:
+
+    $ yarn install
+    $ ./bin/webpack-dev-server
+    navigate to localhost:3000 in the browser
