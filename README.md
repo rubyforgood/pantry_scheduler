@@ -29,3 +29,7 @@ Create and migrate your development database:
 
     $ bundle exec rake db:create db:migrate
 
+Install node and yarn
+
+    $ brew install node yarn
+
