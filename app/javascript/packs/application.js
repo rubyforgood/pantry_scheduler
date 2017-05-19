@@ -13,7 +13,10 @@ class App extends Component {
     super(props);
 
     this.state = {
+      authError: null,
+      selectedDate: null,
       session: {},
+      signedIn: false,
       signingIn: true,
     };
   }
@@ -43,6 +46,7 @@ class App extends Component {
       session,
       authError,
       signingIn,
+      selectedDate,
     } = this.state;
 
     return (
