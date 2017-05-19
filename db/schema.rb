@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170519181916) do
+ActiveRecord::Schema.define(version: 20170519190215) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,13 @@ ActiveRecord::Schema.define(version: 20170519181916) do
     t.integer "num_children", null: false
     t.date "usda_cert_date"
     t.boolean "usda_qualifier", null: false
+  end
+
+  create_table "notes", force: :cascade do |t|
+    t.string "body", null: false
+    t.string "memoable_type"
+    t.bigint "memoable_id"
+    t.index ["memoable_type", "memoable_id"], name: "index_notes_on_memoable_type_and_memoable_id"
   end
 
   create_table "users", force: :cascade do |t|
