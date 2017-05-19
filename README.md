@@ -9,9 +9,17 @@ Scheduling system for Elizabeth House Food Pantry.  This app will allow voluntee
 
 Install Postgres using [Postgres.app](https://github.com/PostgresApp/PostgresApp/releases/download/v2.0.3/Postgres-2.0.3.dmg) and run it to get your database up and running.
 
+We're using Ruby 2.4.1. If you don't yet have a method for installing/managing Ruby versions [jgaskins](https://github.com/jgaskins) recommends [RVM](https://rvm.io).
+
+With RVM installed, type
+
+    $ rvm use 2.4.1
+
+If you don't have Ruby 2.4.1 installed, RVM will give you instructions for installing it (after which you should retry the above command).
+
 Clone the repo:
 
-    $ git clone https://github.com/rubyforgood/pantry_scheduler.git
+    $ git clone https://github.com/rubyforgood/pantry_scheduler.git && cd pantry_scheduler
 
 Install the gems:
 
