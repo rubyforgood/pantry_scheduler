@@ -1,7 +1,6 @@
 module API
   class SessionsController < ApplicationController
     def show
-      sleep 1
       respond_to do |format|
         format.json do
           render json: {

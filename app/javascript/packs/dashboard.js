@@ -11,7 +11,7 @@ export default class Dashboard extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/api/appointments/today')
+    fetch(`/api/appointments/${this.props.date || 'today'}`)
       .then(response => response.json())
       .then(json => {
         this.setState({

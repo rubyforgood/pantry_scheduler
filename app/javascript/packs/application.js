@@ -59,17 +59,17 @@ class App extends Component {
             </div>
           ) }
 
-          { session.user && (
-            <div>Logged in as {session.user.name}</div>
-          ) }
-
           { signingIn ? (
             <div>Loading&hellip;</div>
           ) : (
             session.user ? (
               <div>
+                <div>Logged in as {session.user.name}</div>
                 <Route exact path="/" component={Home} />
-                <Route path="/dashboard" component={Dashboard} />
+                <Route
+                  path="/dashboard"
+                  render={() => <Dashboard date={this.state.selectedDate} />}
+                />
               </div>
             ) : (
               <Redirect to="/login" />
