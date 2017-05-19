@@ -14,5 +14,7 @@ Rails.application.routes.draw do
   root to: 'home#index'
   get '*all' => 'home#index'
 
-  resources :clients
+  namespace :api do
+    resources :clients
+  end
 end
