@@ -6,7 +6,8 @@ import {
   Link,
   Redirect,
 } from 'react-router-dom';
-import Dashboard from './dashboard';
+
+import Dashboard from 'dashboard';
 
 class App extends Component {
   constructor(props) {
