@@ -8,6 +8,9 @@ Rails.application.routes.draw do
     end
   end
 
+  devise_for :users
+  resources :users, only: [:create]
+
   root to: 'home#index'
   get '*all' => 'home#index'
 end
