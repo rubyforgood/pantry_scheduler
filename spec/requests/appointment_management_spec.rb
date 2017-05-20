@@ -7,21 +7,36 @@ require "rails_helper"
 
      get "/api/appointments.json"
 
-     expect(
-      JSON.parse(response.body)
-     ).to include(appt.as_json)
+     expect(response_json[:appointments].first).to include(id: appt.id)
+     expect(response_json[:clients].first).to include(id: client.id)
    end
 
    it 'Retrieves an appointment' do
      client = create_client
      appt = create_appt(client)
 
-     get "/api/appointments/1.json"
+     get "/api/appointments/#{appt.id}.json"
 
-     expect(
-      JSON.parse(response.body)
-     ).to include(appt.as_json,
-                  client.as_json)
+     expect(response_json[:appointment]).to include(id: appt.id)
+     expect(response_json[:client]).to include(id: client.id)
+   end
+
+   it 'fetches appointments for today' do
+     client = create_client
+     yesterday = create_appt(client, time: 1.day.ago)
+     today     = create_appt(client, time: Time.now)
+     tomorrow  = create_appt(client, time: 1.day.from_now)
+
+     get '/api/appointments/today.json'
+
+     expect(response_json[:appointments].count).to eq 1
+     expect(response_json[:appointments].first[:id]).to eq today.id
+     expect(response_json[:clients].first[:id]).to eq client.id
+     expect(response_json[:notes]).to be_empty
+   end
+
+   def response_json
+     JSON.parse(response.body, symbolize_names: true)
    end
 
    def create_client
@@ -35,7 +50,12 @@ require "rails_helper"
                   usda_qualifier: false)
    end
 
-   def create_appt(client)
-     Appointment.create!(id: 1, client: client, time: DateTime.new(2017, 5, 5), usda_qualifier: false, family_size: 27)
+   def create_appt(client, time: DateTime.now)
+     Appointment.create!(
+       client: client,
+       time: time,
+       usda_qualifier: false,
+       family_size: 27,
+     )
    end
  end
