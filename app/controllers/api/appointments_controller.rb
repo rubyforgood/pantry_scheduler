@@ -1,8 +1,13 @@
-class Api::AppointmentsController < ApplicationController
+class API::AppointmentsController < ApplicationController
   respond_to :json
 
   def index
-    render json: Appointment.all.as_json
+    appointments = Appointment.includes(:client)
+
+    render json: {
+      appointments: appointments.map(&:attributes),
+      clients: appointments.map(&:client).map(&:attributes),
+    }
   end
 
   def show
@@ -17,6 +22,16 @@ class Api::AppointmentsController < ApplicationController
         }
       }, status: 404
     end
+  end
+
+  def today
+    appointments = Appointment.for_day(Date.today)
+
+    render json: {
+      appointments: appointments.map(&:attributes),
+      clients: appointments.map(&:client).map(&:attributes),
+      notes: appointments.flat_map(&:notes).map(&:attributes),
+    }
   end
 
   private
