@@ -62,7 +62,7 @@ appointments = Array.new(500) do
 
   Appointment.create!(
     time: Faker::Date.between(1.year.ago, Date.today + 2.months),
-    appointment_type: Appointment::APPOINTMENT_TYPES.sample,
+    appointment_type: Appointment::APPOINTMENT_TYPES.sample([1, 2].sample),
     client_id: client.id,
     family_size: client.num_adults + client.num_children,
     usda_qualifier: client.usda_qualifier
