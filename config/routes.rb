@@ -8,6 +8,12 @@ Rails.application.routes.draw do
         get :today
       end
     end
+    resources :clients do
+      resources :notes, only: [:update, :create], memoable_type: "Client"
+    end
+    resources :appointments do
+      resources :notes, only: [:update, :create], memoable_type: "Appointment"
+    end
   end
 
   root to: 'home#index'
