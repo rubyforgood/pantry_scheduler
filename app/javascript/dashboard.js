@@ -131,7 +131,7 @@ export default class Dashboard extends React.Component {
   modal() {
     if(this.state.apptNotes) {
       return (
-        <Modal onClick={() => this.showNotes(null)}>
+        <Modal onClose={() => this.showNotes(null)}>
           {
             this.state.notes.filter((note) => (
               note.memoable_type === 'Appointment' && note.memoable_id === this.state.apptNotes
