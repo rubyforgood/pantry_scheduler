@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170519190215) do
+ActiveRecord::Schema.define(version: 20170520144405) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20170519190215) do
     t.bigint "client_id"
     t.integer "family_size", null: false
     t.boolean "usda_qualifier", null: false
+    t.string "appointment_type", array: true
     t.index ["client_id"], name: "index_appointments_on_client_id"
   end
 

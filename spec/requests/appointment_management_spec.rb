@@ -47,7 +47,8 @@ RSpec.describe "Appointment Managment", type: :request do
       { client_id: 1,
         time: DateTime.new(2017, 5, 5),
         usda_qualifier: false,
-        family_size: 27 }
+        family_size: 27,
+        appointment_type: %w(food) }
     end
 
     it 'Creates a new appointment' do
@@ -95,6 +96,7 @@ RSpec.describe "Appointment Managment", type: :request do
     Appointment.create!(client: client,
                         time: time,
                         usda_qualifier: false,
-                        family_size: 27)
+                        family_size: 27,
+                        appointment_type: %w(food))
   end
 end

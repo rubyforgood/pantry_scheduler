@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :users, only: [:create]
 
   namespace :api do
+    resources :clients
     resources :appointments do
       collection do
         get :today
@@ -18,9 +19,4 @@ Rails.application.routes.draw do
 
   root to: 'home#index'
   get '*all' => 'home#index'
-
-  namespace :api do
-    resources :clients
-    resources :appointments
-  end
 end

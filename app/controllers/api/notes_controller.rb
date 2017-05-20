@@ -11,12 +11,12 @@ class API::NotesController < ApplicationController
 
     note.update(note_params)
 
-    render json: note.as_json
+    render json: { note: note.as_json }
   end
 
   def create
     note = find_memoable.notes.create(note_params)
-    render json: note.as_json
+    render json: { note: note.as_json }
   end
 
   private

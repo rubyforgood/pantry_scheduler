@@ -9,6 +9,7 @@ import {
 
 import Dashboard from 'dashboard';
 import CheckIn from 'appointment-check-in';
+import Directory from 'directory';
 
 class App extends Component {
   constructor(props) {
@@ -26,8 +27,8 @@ class App extends Component {
           <nav>
             <Link to="/">Home</Link>
             <Link to="/dashboard">Dashboard</Link>
+            <Link to="/directory">Directory</Link>
           </nav>
-
           <Route exact path="/" component={Home} />
           <Route
             path="/dashboard"
@@ -37,6 +38,7 @@ class App extends Component {
             path="/appointments/:id/check_in"
             component={CheckIn}
           />
+          <Route path="/directory" component={Directory} />
         </div>
       </Router>
     );
