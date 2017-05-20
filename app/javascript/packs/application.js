@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 
 import Dashboard from 'dashboard';
+import CheckIn from 'appointment-check-in';
 
 class App extends Component {
   constructor(props) {
@@ -21,7 +22,7 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div>
+        <div style={Style.app}>
           <nav>
             <Link to="/">Home</Link>
             <Link to="/dashboard">Dashboard</Link>
@@ -31,6 +32,10 @@ class App extends Component {
           <Route
             path="/dashboard"
             render={() => <Dashboard date={this.state.selectedDate} />}
+          />
+          <Route
+            path="/appointments/:id/check_in"
+            component={CheckIn}
           />
         </div>
       </Router>
@@ -43,6 +48,12 @@ const Home = () => (
     Home
   </div>
 );
+
+const Style = {
+  app: {
+    fontFamily: 'sans-serif',
+  },
+};
 
 if(document.getElementById('app')) {
   requestAnimationFrame(() => {
