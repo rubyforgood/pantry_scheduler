@@ -2,9 +2,9 @@ class API::ClientsController < ApplicationController
   respond_to :json
 
   def index
-    clients = Client.all
+    clients = Client.includes(:notes)
 
-    render json: { clients: clients.as_json }
+    render json: { clients: clients.as_json(include: :notes) }
   end
 
   def create

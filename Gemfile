@@ -46,6 +46,7 @@ group :development, :test do
   gem 'selenium-webdriver'
   gem 'rspec-rails', '>=3'
   gem 'factory_girl_rails'
+  gem 'database_cleaner'
 
   # Seed data
   gem 'faker'
