@@ -25,13 +25,11 @@ class App extends Component {
       <Router>
         <div style={Style.app}>
           <nav>
-            <NavLink to="/">Home</NavLink>
-            <NavLink to="/dashboard">Dashboard</NavLink>
+            <NavLink to="/">Dashboard</NavLink>
             <NavLink to="/directory">Directory</NavLink>
           </nav>
-          <Route exact path="/" component={Home} />
           <Route
-            path="/dashboard"
+            path="/"
             render={() => <Dashboard date={this.state.selectedDate} />}
           />
           <Route path="/directory" component={Directory} />
@@ -44,12 +42,6 @@ class App extends Component {
     );
   }
 }
-
-const Home = () => (
-  <div>
-    Home
-  </div>
-);
 
 class NavLink extends React.Component {
   render() {
