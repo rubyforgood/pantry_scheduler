@@ -9,12 +9,12 @@ Rails.application.routes.draw do
       end
     end
     resources :clients do
-      resources :notes, only: [:update, :create]
+      resources :notes, only: [:update, :create], memoable_type: "Client"
+    end
+    resources :appointments do
+      resources :notes, only: [:update, :create], memoable_type: "Appointment"
     end
   end
-
-  devise_for :users
-  resources :users, only: [:create]
 
   root to: 'home#index'
   get '*all' => 'home#index'
