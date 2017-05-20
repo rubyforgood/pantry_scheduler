@@ -5,16 +5,18 @@ class API::AppointmentsController < ApplicationController
     appointments = Appointment.includes(:client)
 
     render json: {
-      appointments: appointments.map(&:attributes),
-      clients: appointments.map(&:client).map(&:attributes),
+      appointments: appointments.as_json,
+      clients: appointments.map(&:client).as_json,
     }
   end
 
   def show
     appt = Appointment.includes(:client).find_by(id: params[:id])
     if appt
-      client_json = appt.client.as_json
-      render json: appt.as_json.merge(client_json)
+      render json: {
+        appointment: appt.as_json,
+        client: appt.client.as_json,
+      }
     else
       render json: {
         errors: {
@@ -28,9 +30,9 @@ class API::AppointmentsController < ApplicationController
     appointments = Appointment.for_day(Date.today)
 
     render json: {
-      appointments: appointments.map(&:attributes),
-      clients: appointments.map(&:client).map(&:attributes),
-      notes: appointments.flat_map(&:notes).map(&:attributes),
+      appointments: appointments.as_json,
+      clients: appointments.map(&:client).as_json,
+      notes: appointments.flat_map(&:notes).as_json,
     }
   end
 

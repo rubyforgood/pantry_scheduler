@@ -1,9 +1,16 @@
 class API::ClientsController < ApplicationController
   respond_to :json
+
+  def index
+    clients = Client.all
+
+    render json: { clients: clients.as_json }
+  end
+
   def create
     client = Client.create!(create_params)
 
-    render json: client.as_json
+    render json: { client: client.as_json }
   end
 
   private
