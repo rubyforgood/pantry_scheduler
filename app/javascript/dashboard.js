@@ -3,7 +3,10 @@ import {
   toPairs,
   groupBy,
   find,
+  sortBy,
 } from 'lodash';
+import { Link } from 'react-router-dom';
+import Modal from 'modal';
 
 export default class Dashboard extends React.Component {
   constructor(props) {
@@ -43,57 +46,32 @@ export default class Dashboard extends React.Component {
           )
         }
 
-        <table>
-          <thead>
-            <tr>
-              <th>County</th>
-              <th>USDA?</th>
-              <th>Families</th>
-              <th>Counts</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              toPairs(groupBy(this.state.appointments, appt => {
-                const client = this.state.clients.filter(client => (
-                  appt.client_id === client.id
-                ))[0];
-                return [client.county, appt.usda_qualifier]
-              })).map(([ county, appointments ]) => {
-                const clients = appointments.map(appt => (
-                  this.state.clients.filter(client => appt.client_id === client.id)[0]
-                ));
+        <AppointmentFilterList
+          appointments={this.state.appointments}
+          clients={this.state.clients}
+          onChange={(filter) => this.setState({ apptFilter: filter })}
+        />
 
-                return (
-                  <tr key={county}>
-                    <td>{clients[0].county}</td>
-                    <td>{appointments[0].usda_qualifier ? yep() : nope()}</td>
-                    <td>{appointments.length}</td>
-                    <td>{appointments.map(appt => appt.family_size).join(' / ')}</td>
-                  </tr>
-                );
-              })
-            }
-          </tbody>
-        </table>
-
-        <h2>Clients</h2>
         <table>
           <thead>
             <tr>
               <th>Client</th>
               <th>County</th>
               <th>Family Size</th>
+              <th>Notes</th>
               <th></th>
             </tr>
           </thead>
 
           <tbody>
             {
-              this.state.appointments.map((appt, index) => {
+              this.filteredAppointments().map((appt, index) => {
                 const client = find(this.state.clients, c => (
                   c.id === appt.client_id
                 ));
+                const notes = this.state.notes.filter(note => (
+                  note.memoable_type === 'Appointment' && note.memoable_id === appt.id
+                ))
 
                 return (
                   <tr key={client.id}>
@@ -101,15 +79,14 @@ export default class Dashboard extends React.Component {
                     <td>{client.county}</td>
                     <td>{appt.family_size}</td>
                     <td>
-                      {
-                        find(this.state.notes, note => (
-                          note.memoable_type === 'Appointment' && note.memoable_id === appt.id
-                        )) && (
-                          <button onClick={() => this.showNotes(appt.id)}>
-                            Notes
-                          </button>
-                        )
-                      }
+                      <button onClick={() => this.showNotes(appt.id)}>
+                        {notes.length > 0 ? notes.length : ''} Note{notes.length === 1 ? '' : 's'}
+                      </button>
+                    </td>
+                    <td>
+                      <Link to={`/appointments/${appt.id}/check_in`}>
+                        Check In
+                      </Link>
                     </td>
                   </tr>
                 );
@@ -118,24 +95,31 @@ export default class Dashboard extends React.Component {
           </tbody>
         </table>
 
-        { this.state.apptNotes && (
-          <div style={Style.modalOverlay} onClick={() => this.showNotes(null)}>
-            <div style={Style.modal} onClick={event => event.stopPropagation()}>
-              <button onClick={() => this.showNotes(null)}>&times;</button>
-              {
-                this.state.notes.filter((note) => (
-                  note.memoable_type === 'Appointment' && note.memoable_id === this.state.apptNotes
-                )).map(note => (
-                  <div key={note.id}>
-                    <p>{note.body}</p>
-                  </div>
-                ))
-              }
-            </div>
-          </div>
-        ) }
+        {this.modal()}
       </div>
     );
+  }
+
+  filteredAppointments() {
+    const filter = this.state.apptFilter;
+    if(!filter) { return this.state.appointments; }
+
+
+    const filtered = this.state.appointments.filter(appt => {
+      const client = find(this.state.clients, c => (
+        c.id === appt.client_id
+      ));
+
+      var key;
+      for(var keys = Object.keys(filter), i = 0; i < keys.length; i++) {
+        key = keys[i];
+        if((client[key] || appt[key]) !== filter[key]) return false;
+      }
+
+      return true;
+    });
+
+    return filtered;
   }
 
   showNotes(apptId) {
@@ -143,8 +127,79 @@ export default class Dashboard extends React.Component {
       apptNotes: apptId,
     });
   }
+
+  modal() {
+    if(this.state.apptNotes) {
+      return (
+        <Modal onClick={() => this.showNotes(null)}>
+          {
+            this.state.notes.filter((note) => (
+              note.memoable_type === 'Appointment' && note.memoable_id === this.state.apptNotes
+            )).map(note => (
+              <div key={note.id}>
+                <p>{note.body}</p>
+              </div>
+            ))
+          }
+        </Modal>
+      );
+    }
+  }
 }
 
+class AppointmentFilterList extends React.Component {
+  render() {
+    return (
+      <div style={Style.appointmentFilterList}>
+        {
+          sortBy(toPairs(groupBy(this.props.appointments, appt => {
+            const client = this.props.clients.filter(client => (
+              appt.client_id === client.id
+            ))[0];
+            return `${client.county}${appt.usda_qualifier ? '-USDA' : ''}`;
+          })), (([label, appointments]) => label))
+          .map(([label, appointments]) => {
+            const client = this.props.clients.filter(client => (
+              appointments[0].client_id === client.id
+            ))[0];
+
+            return (
+              <button
+                key={label}
+                style={Style.appointmentFilter}
+                onClick={() => {
+                  const appointmentFilter = this.state || {};
+
+                  if(appointmentFilter.county !== client.county ||
+                     appointmentFilter.usda_qualifier !== client.usda_qualifier
+                  ) {
+                    this.setState({
+                      county: client.county,
+                      usda_qualifier: appointments[0].usda_qualifier,
+                    });
+                    this.props.onChange({
+                      county: client.county,
+                      usda_qualifier: appointments[0].usda_qualifier,
+                    });
+                  } else {
+                    this.setState({
+                      county: null,
+                      usda_qualifier: null,
+                    });
+                    this.props.onChange(null);
+                  }
+                }}
+              >
+                <span style={Style.filterLabel}>{label}</span>
+                <span style={Style.filterCount}>{appointments.length}</span>
+              </button>
+            );
+          })
+        }
+      </div>
+    );
+  }
+}
 
 const yep = () => <span>&#10004;</span>;
 const nope = () => <span>&times;</span>;
@@ -154,18 +209,26 @@ const Error = ({ error }) => (
 );
 
 const Style = {
-  modalOverlay: {
-    position: 'fixed',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'rgba(0,0,0, 0.5)',
+  appointmentFilterList: {
+    listStyle: 'none',
+    padding: 0,
   },
-  modal: {
-    width: '50%',
-    backgroundColor: 'white',
-    margin: '20vh auto',
-    padding: '2em',
+  appointmentFilter: {
+    display: 'inline-block',
+    verticalAlign: 'top',
+    padding: '0.5em',
+    margin: '0.5em',
+  },
+  filterLabel: {
+    
+  },
+  filterCount: {
+    display: 'inline-block',
+    marginLeft: '12px',
+    width: '16px',
+    height: '16px',
+    textAlign: 'center',
+    borderRadius: '50%',
+    backgroundColor: '#ccc',
   },
 };
