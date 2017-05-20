@@ -34,10 +34,6 @@ class API::AppointmentsController < ApplicationController
     }
   end
 
-  def new
-    render json: Appointment.new
-  end
-
   def create
     appt = Appointment.new(appointment_params)
     if appt.save

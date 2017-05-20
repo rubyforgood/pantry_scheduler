@@ -42,15 +42,6 @@ RSpec.describe "Appointment Managment", type: :request do
     end
   end
 
-
-  describe 'new' do
-    it 'Produces a new appointment' do
-      get "/api/appointments/new.json"
-
-      expect(response_json[:appointment]).to have_key(:id)
-    end
-  end
-
   describe 'create' do
     let(:appointment_params) do
       { client_id: 1,
