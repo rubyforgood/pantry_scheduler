@@ -41,15 +41,28 @@ class API::AppointmentsController < ApplicationController
     if appt.save
       render json: appt
     else
-      render json: {
-        errors: {
-          message: appt.errors.full_messages.first
-        }
-      }, status: 400
+      render_errors(appt)
+    end
+  end
+
+  def update
+    appt = Appointment.find(params[:id])
+    if appt.update(appointment_params)
+      render json: appt
+    else
+      render_errors(appt)
     end
   end
 
   private
+
+  def render_errors(appt)
+    render json: {
+      errors: {
+        message: appt.errors.full_messages.first
+      }
+    }, status: 400
+  end
 
   def appointment_params
     params.require(:appointment).permit(:time, :client_id, :family_size, :usda_qualifier, appointment_type: [])
