@@ -35,22 +35,45 @@ possible_counties = DiscreteDistribution.new(
   'Howard' => 3,
 )
 
-# TODO Randomize whether optional fields are present
-100.times do
+clients = Array.new(100) do
   county = possible_counties.sample
+  putc '.'
 
   Client.create!(
     first_name: Faker::Name.first_name,
     last_name: Faker::Name.last_name,
     address: "#{Faker::Address.street_address}#{', ' + Faker::Address.secondary_address if rand < 0.2}",
-    phone_number: Faker::PhoneNumber.phone_number,
-    cell_number: Faker::PhoneNumber.cell_phone,
-    email: Faker::Internet.email,
+    phone_number: (Faker::PhoneNumber.phone_number if rand < 0.9),
+    cell_number: (Faker::PhoneNumber.cell_phone if rand < 0.9),
+    email: (Faker::Internet.email if rand < 0.9),
     county: county,
     zip: Faker::Address.zip,
     num_adults: possible_num_adults.sample,
     num_children: possible_num_children.sample,
-    usda_cert_date: (Faker::Date.between(11.months.ago, Date.today + 1.month) if county == 'PG'),
+    usda_cert_date: ((Faker::Date.between(11.months.ago, Date.today + 1.month) if county == 'PG') if rand < 0.9),
     usda_qualifier: county == 'PG',
   )
+end
+
+
+appointments = Array.new(500) do
+  client = clients.sample
+  putc '.'
+
+  Appointment.create!(
+    time: Faker::Date.between(1.year.ago, Date.today + 2.months),
+    client_id: client.id,
+    family_size: client.num_adults + client.num_children,
+    usda_qualifier: client.usda_qualifier
+  )
+end
+
+
+100.times do
+  memoable = rand < 0.75 ? appointments.sample : clients.sample
+
+  memoable.notes.create!(
+    body: Faker::Lorem.sentence,
+  )
+  putc '.'
 end
