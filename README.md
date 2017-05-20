@@ -27,7 +27,12 @@ Install the gems:
 
 Create and migrate your development database:
 
-    $ bundle exec rake db:create db:migrate
+    $ bundle exec rake db:setup
+
+This command  will also create a development user for you to login as with the following credentials:
+
+    email: admin@example.com
+    password: abc123
 
 Install node and yarn
 
