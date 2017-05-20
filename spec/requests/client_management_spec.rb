@@ -1,27 +1,41 @@
 require "rails_helper"
 
+require "pry"
+
 RSpec.describe "Client Managment", type: :request do
-  let(:client_params) do
-    {
-      first_name: "Sally",
-      last_name: "Smith",
-      address: "123 Main St",
-      county: 'Baltimore',
-      zip: '21201',
-      num_adults: 12,
-      num_children: 15,
-      usda_qualifier: false,
-    }
-  end
-  it "Creates a Client" do
-    expect {
+  describe "create" do
+    let(:client_params) do
+      {
+        first_name: "Sally",
+        last_name: "Smith",
+        address: "123 Main St",
+        county: 'Baltimore',
+        zip: '21201',
+        num_adults: 12,
+        num_children: 15,
+        usda_qualifier: false,
+      }
+    end
+    it "Creates a Client" do
+      expect {
+        post "/api/clients.json", params: { client: client_params }
+      }.to change(Client, :count).by(1)
+    end
+
+    it "Returns Json for the new client" do
       post "/api/clients.json", params: { client: client_params }
-    }.to change(Client, :count).by(1)
+
+      expect(JSON.parse(response.body).fetch("client")).to include("first_name" => "Sally", "last_name" => "Smith")
+    end
   end
 
-  it "Returns Json for the new client" do
-    post "/api/clients.json", params: { client: client_params }
+  describe "index" do
+    3.times { FactoryGirl.create(:client) }
 
-    expect(JSON.parse(response.body).fetch("client")).to include("first_name" => "Sally", "last_name" => "Smith")
+    it "retrieves all clients" do
+      get "/api/clients.json"
+      binding.pry
+      expect(JSON.parse(response.body).fetch("clients").count).to equal(3)
+    end
   end
 end
