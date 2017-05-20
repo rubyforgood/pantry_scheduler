@@ -18,11 +18,7 @@ class API::AppointmentsController < ApplicationController
         client: appt.client.as_json,
       }
     else
-      render json: {
-        errors: {
-          message: 'Not found'
-        }
-      }, status: 404
+      render_not_found
     end
   end
 
@@ -54,17 +50,30 @@ class API::AppointmentsController < ApplicationController
     end
   end
 
+  def destroy
+    appt = Appointment.find_by(id: params[:id])
+    appt ? appt.destroy! : render_not_found
+  end
+
   private
 
-  def render_errors(appt)
-    render json: {
-      errors: {
-        message: appt.errors.full_messages.first
-      }
-    }, status: 400
-  end
+    def render_errors(appt)
+      render json: {
+        errors: {
+          message: appt.errors.full_messages.first
+        }
+      }, status: 400
+    end
 
-  def appointment_params
-    params.require(:appointment).permit(:time, :client_id, :family_size, :usda_qualifier, appointment_type: [])
-  end
+    def render_not_found
+      render json: {
+        errors: {
+          message: 'Not found'
+        }
+      }, status: 404
+    end
+
+    def appointment_params
+      params.require(:appointment).permit(:time, :client_id, :family_size, :usda_qualifier, appointment_type: [])
+    end
 end

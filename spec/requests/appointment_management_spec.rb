@@ -94,4 +94,18 @@ RSpec.describe "Appointment Managment", type: :request do
       end
     end
   end
+
+  describe 'delete' do
+    it 'successfully deletes an appointment' do
+      delete "/api/appointments/#{appt.id}"
+      expect(Appointment.exists?(appt.id)).to be(false)
+      expect(response).to be_success
+    end
+
+    it 'renders errors json with 404 if not found' do
+      delete "/api/appointments/0"
+      expect(response_json).to have_key(:errors)
+      expect(response).to be_not_found
+    end
+  end
 end
