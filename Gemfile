@@ -49,6 +49,7 @@ group :development, :test do
 
   # Seed data
   gem 'faker'
+  gem 'discrete_distribution'
 end
 
 group :development do
