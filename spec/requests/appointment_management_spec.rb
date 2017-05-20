@@ -70,4 +70,28 @@ RSpec.describe "Appointment Managment", type: :request do
       expect(response_json).to have_key(:errors)
     end
   end
+
+  describe 'update' do
+    it 'successfully updates appt' do
+      current_family_size = appt.family_size
+      put "/api/appointments/#{appt.id}.json", params: {appointment: {family_size: current_family_size * 2}}
+      expect(appt.reload.family_size).to eql(current_family_size * 2)
+    end
+
+    describe 'does not allow client_id to be changed' do
+      let(:other_client) { FactoryGirl.create(:client) }
+
+      before do
+        put "/api/appointments/#{appt.id}.json", params: {appointment: {client_id: other_client.id}}
+      end
+
+      it "does not change the client id" do
+        expect(appt.reload.client_id).to eql(client.id)
+      end
+
+      it "returns errors" do
+        expect(response_json).to have_key(:errors)
+      end
+    end
+  end
 end
