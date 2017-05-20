@@ -32,7 +32,7 @@ possible_num_adults = DiscreteDistribution.new(
 possible_counties = DiscreteDistribution.new(
   'PG' => 20,
   'AA' => 5,
-  'Howard' => 3,
+  'HO' => 3,
 )
 
 clients = Array.new(100) do
