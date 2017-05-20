@@ -21,7 +21,7 @@ module API
             id: 32,
             client_id: 12,
             family_size: 4,
-            is_usda: true,
+            is_usda: false,
             checked_in_at: Time.now,
           }
         ],

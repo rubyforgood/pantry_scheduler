@@ -1,4 +1,9 @@
 import React from 'react';
+import {
+  toPairs,
+  groupBy,
+  find,
+} from 'lodash';
 
 export default class Dashboard extends React.Component {
   constructor(props) {
@@ -7,7 +12,6 @@ export default class Dashboard extends React.Component {
     this.state = {
       appointments: [],
       clients: [],
-      fetchError: null,
     };
   }
 
@@ -40,23 +44,55 @@ export default class Dashboard extends React.Component {
         <table>
           <thead>
             <tr>
-              <th>Client</th>
               <th>County</th>
-              <th>Family Size</th>
+              <th>USDA?</th>
+              <th>Families</th>
+              <th>Counts</th>
             </tr>
           </thead>
           <tbody>
             {
-              this.state.appointments.map((appointment, index) => {
-                const client = this.state.clients.filter(client => (
-                  client.id === appointment.client_id
-                ))[0];
+              toPairs(groupBy(this.state.appointments, appt => [
+                appt.county, appt.is_usda
+              ])).map(([ county, appointments ]) => {
+                const clients = appointments.map(appt => (
+                  this.state.clients.filter(client => appt.client_id === client.id)[0]
+                ));
 
                 return (
-                  <tr key={appointment.id}>
+                  <tr key={county}>
+                    <td>{clients[0].county}</td>
+                    <td>{appointments[0].is_usda ? yep() : nope()}</td>
+                    <td>{appointments.length}</td>
+                    <td>{appointments.map(appt => appt.family_size).join(' / ')}</td>
+                  </tr>
+                );
+              })
+            }
+          </tbody>
+        </table>
+
+        <h2>Clients</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Client</th>
+              <th>County</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {
+              this.state.appointments.map((appt, index) => {
+                const client = find(this.state.clients, c => (
+                  c.id === appt.client_id
+                ));
+
+                return (
+                  <tr key={client.id}>
                     <td>{client.name}</td>
                     <td>{client.county}</td>
-                    <td>{appointment.family_size}</td>
+                    <td>{appt.family_size}</td>
                   </tr>
                 );
               })
@@ -67,6 +103,10 @@ export default class Dashboard extends React.Component {
     );
   }
 }
+
+
+const yep = () => <span>&#10004;</span>;
+const nope = () => <span>&times;</span>;
 
 const Error = ({ error }) => (
   <div style={{ color: 'red' }}>{error.message}</div>
