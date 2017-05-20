@@ -1,5 +1,4 @@
 require "rails_helper"
-require 'pry'
 
 RSpec.describe Appointment, :type => :model do
   context "Client is created" do
@@ -13,6 +12,7 @@ RSpec.describe Appointment, :type => :model do
         client_id: client.id,
       }
     }
+
     it "adds an appointment type successfully" do
       appointment = Appointment.new(default_attrs)
       expect(appointment).to be_valid

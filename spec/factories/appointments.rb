@@ -4,5 +4,6 @@ FactoryGirl.define do
     time Time.now
     family_size 3
     usda_qualifier false
+    appointment_type %w(food)
   end
 end
