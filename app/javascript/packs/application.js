@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 
 import Dashboard from 'dashboard';
+import Directory from 'directory';
 
 class App extends Component {
   constructor(props) {
@@ -25,13 +26,14 @@ class App extends Component {
           <nav>
             <Link to="/">Home</Link>
             <Link to="/dashboard">Dashboard</Link>
+            <Link to="/directory">Directory</Link>
           </nav>
-
           <Route exact path="/" component={Home} />
           <Route
             path="/dashboard"
             render={() => <Dashboard date={this.state.selectedDate} />}
           />
+          <Route path="/directory" component={Directory} />
         </div>
       </Router>
     );
