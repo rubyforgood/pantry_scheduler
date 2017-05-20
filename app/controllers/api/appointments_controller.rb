@@ -51,6 +51,14 @@ module API
             certified_on: Date.today,
           }
         ],
+        notes: [
+          {
+            id: 1,
+            body: 'I want apples',
+            memoable_type: 'Appointment',
+            memoable_id: 4,
+          },
+        ],
       }
     end
   end

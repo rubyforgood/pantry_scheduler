@@ -12,6 +12,7 @@ export default class Dashboard extends React.Component {
     this.state = {
       appointments: [],
       clients: [],
+      notes: [],
     };
   }
 
@@ -22,6 +23,7 @@ export default class Dashboard extends React.Component {
         this.setState({
           appointments: json.appointments || [],
           clients: json.clients || [],
+          notes: json.notes || [],
           fetchError: json.error,
         })
       })
@@ -93,14 +95,48 @@ export default class Dashboard extends React.Component {
                     <td>{client.name}</td>
                     <td>{client.county}</td>
                     <td>{appt.family_size}</td>
+                    <td>
+                      {
+                        find(this.state.notes, note => (
+                          note.memoable_type === 'Appointment' && note.memoable_id === appt.id
+                        )) && (
+                          <button onClick={() => this.showNotes(appt.id)}>
+                            Notes
+                          </button>
+                        )
+                      }
+                    </td>
                   </tr>
                 );
               })
             }
           </tbody>
         </table>
+
+        { this.state.apptNotes && (
+          <div style={Style.modalOverlay} onClick={() => this.showNotes(null)}>
+            <div style={Style.modal} onClick={event => event.stopPropagation()}>
+              <button onClick={() => this.showNotes(null)}>&times;</button>
+              {
+                this.state.notes.filter((note) => (
+                  note.memoable_type === 'Appointment' && note.memoable_id === this.state.apptNotes
+                )).map(note => (
+                  <div key={note.id}>
+                    <p>{note.body}</p>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+        ) }
       </div>
     );
+  }
+
+  showNotes(apptId) {
+    this.setState({
+      apptNotes: apptId,
+    });
   }
 }
 
@@ -111,3 +147,20 @@ const nope = () => <span>&times;</span>;
 const Error = ({ error }) => (
   <div style={{ color: 'red' }}>{error.message}</div>
 );
+
+const Style = {
+  modalOverlay: {
+    position: 'fixed',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'rgba(0,0,0, 0.5)',
+  },
+  modal: {
+    width: '50%',
+    backgroundColor: 'white',
+    margin: '20vh auto',
+    padding: '2em',
+  },
+};
