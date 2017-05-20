@@ -1,3 +1,5 @@
 language: ruby
 rvm:
- - 2.4.1
+  - 2.4.1
+before_script:
+  - RAILS_ENV=test rake db:create db:schema:load
