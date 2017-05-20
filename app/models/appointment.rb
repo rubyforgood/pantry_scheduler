@@ -2,7 +2,6 @@ class Appointment < ApplicationRecord
   belongs_to :client
   has_many :notes, as: :memoable
 
-
   APPOINTMENT_TYPES = %w(food utilities).freeze
 
   validate do |model|
@@ -17,8 +16,16 @@ class Appointment < ApplicationRecord
     end
   end
 
+  validate :client_is_unchanged, on: [:update]
+
   def self.for_day(date)
     includes(:client, :notes)
       .where(time: date.beginning_of_day..date.end_of_day)
+  end
+
+  private
+
+  def client_is_unchanged
+    errors.add(:client_id, "cannot be changed") if client_id_changed?
   end
 end
