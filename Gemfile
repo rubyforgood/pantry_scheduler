@@ -46,6 +46,7 @@ group :development, :test do
   gem 'selenium-webdriver'
   gem 'rspec-rails', '>=3'
   gem 'faker'
+  gem 'factory_girl_rails'
 end
 
 group :development do
