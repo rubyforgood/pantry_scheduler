@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
+  devise_for :users
+  resources :users, only: [:create]
+
   namespace :api do
-    resource :session
     resources :appointments do
       collection do
         get :today
@@ -8,9 +10,11 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :users
-  resources :users, only: [:create]
-
   root to: 'home#index'
   get '*all' => 'home#index'
+
+  namespace :api do
+    resources :clients
+    resources :appointments
+  end
 end

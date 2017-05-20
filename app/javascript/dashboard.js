@@ -54,9 +54,12 @@ export default class Dashboard extends React.Component {
           </thead>
           <tbody>
             {
-              toPairs(groupBy(this.state.appointments, appt => [
-                appt.county, appt.is_usda
-              ])).map(([ county, appointments ]) => {
+              toPairs(groupBy(this.state.appointments, appt => {
+                const client = this.state.clients.filter(client => (
+                  appt.client_id === client.id
+                ))[0];
+                return [client.county, appt.usda_qualifier]
+              })).map(([ county, appointments ]) => {
                 const clients = appointments.map(appt => (
                   this.state.clients.filter(client => appt.client_id === client.id)[0]
                 ));
@@ -64,7 +67,7 @@ export default class Dashboard extends React.Component {
                 return (
                   <tr key={county}>
                     <td>{clients[0].county}</td>
-                    <td>{appointments[0].is_usda ? yep() : nope()}</td>
+                    <td>{appointments[0].usda_qualifier ? yep() : nope()}</td>
                     <td>{appointments.length}</td>
                     <td>{appointments.map(appt => appt.family_size).join(' / ')}</td>
                   </tr>
@@ -80,6 +83,8 @@ export default class Dashboard extends React.Component {
             <tr>
               <th>Client</th>
               <th>County</th>
+              <th>Family Size</th>
+              <th></th>
             </tr>
           </thead>
 
@@ -92,7 +97,7 @@ export default class Dashboard extends React.Component {
 
                 return (
                   <tr key={client.id}>
-                    <td>{client.name}</td>
+                    <td>{client.first_name} {client.last_name}</td>
                     <td>{client.county}</td>
                     <td>{appt.family_size}</td>
                     <td>
