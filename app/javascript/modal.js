@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 export default class Modal extends Component {
   render() {
     return (
-      <div style={Style.modalOverlay} onClick={this.props.onClick}>
+      <div style={Style.modalOverlay} onClick={this.props.onClose}>
         <div style={Style.modal} onClick={event => event.stopPropagation()}>
-          <button onClick={() => this.showNotes(null)}>&times;</button>
+          <button onClick={this.props.onClose}>&times;</button>
           {this.props.children}
         </div>
       </div>
