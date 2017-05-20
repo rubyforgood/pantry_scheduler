@@ -8,11 +8,13 @@ Rails.application.routes.draw do
         get :today
       end
     end
+    resources :clients do
+      resources :notes, only: [:update, :create]
+    end
   end
 
   devise_for :users
   resources :users, only: [:create]
-  resources :notes, only: [:edit, :create]
 
   root to: 'home#index'
   get '*all' => 'home#index'

@@ -58,7 +58,6 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'guard-rspec'
   gem 'terminal-notifier-guard',   require: false
-  gem 'ruby_gntp',                 require: false
   gem 'pry'
 end
 
