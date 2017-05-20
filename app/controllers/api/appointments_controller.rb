@@ -41,7 +41,6 @@ class API::AppointmentsController < ApplicationController
     if appt.save
       render json: appt
     else
-      appt.valid?
       render json: {
         errors: {
           message: appt.errors.full_messages.first
