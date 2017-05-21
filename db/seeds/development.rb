@@ -4,7 +4,7 @@ Faker::Config.locale = 'en-US'
 require 'discrete_distribution'
 
 # Login user
-User.create!(
+login_user = User.create!(
   email: 'admin@example.com',
   password: 'abc123',
   password_confirmation: 'abc123',
@@ -75,6 +75,7 @@ end
 
   memoable.notes.create!(
     body: Faker::Lorem.sentence,
+    author: login_user,
   )
   putc '.'
 end
