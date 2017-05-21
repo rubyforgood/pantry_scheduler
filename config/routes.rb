@@ -10,6 +10,10 @@ Rails.application.routes.draw do
       end
     end
     resources :clients do
+      collection do
+        get 'autocomplete_name/:name', action: 'autocomplete_name'
+      end
+
       resources :notes, only: [:update, :create], memoable_type: "Client"
     end
     resources :appointments do

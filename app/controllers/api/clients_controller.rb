@@ -19,6 +19,14 @@ class API::ClientsController < APIController
     render json: { client: client.as_json }
   end
 
+  def autocomplete_name
+    clients = Client.where('first_name ~* :query OR last_name ~* :query', query: params[:name])
+
+    render json: {
+      clients: clients.as_json,
+    }
+  end
+
   private
 
   def create_params

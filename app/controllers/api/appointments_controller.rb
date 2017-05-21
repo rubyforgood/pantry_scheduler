@@ -1,6 +1,4 @@
-class API::AppointmentsController < ApplicationController
-  respond_to :json
-
+class API::AppointmentsController < APIController
   def index
     appointments = Appointment.includes(:client)
 

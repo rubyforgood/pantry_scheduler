@@ -11,6 +11,7 @@ import Dashboard from 'dashboard';
 import Directory from 'directory';
 import CheckIn from 'appointment-check-in';
 import ClientForm from 'client-form';
+import NewAppointment from 'new-appointment';
 
 class App extends Component {
   constructor(props) {
@@ -28,6 +29,7 @@ class App extends Component {
           <nav style={Style.navBar}>
             <NavLink to="/" style={Style.navLink}>Dashboard</NavLink>
             <NavLink to="/directory" style={Style.navLink}> Directory</NavLink>
+            <NavLink to="/new_appointment" style={Style.navLink}>New Appointment</NavLink>
           </nav>
           <div style={Style.routeContainer}>
             <Route
@@ -36,6 +38,7 @@ class App extends Component {
               render={() => <Dashboard date={this.state.selectedDate} />}
             />
             <Route path="/directory" component={Directory} />
+            <Route path="/new_appointment" component={NewAppointment} />
             { /* FIXME: route below isn't used */ }
             <Route
               path="/appointments/:id/check_in"
