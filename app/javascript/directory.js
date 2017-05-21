@@ -26,6 +26,14 @@ export default class Directory extends React.Component {
       })
   }
 
+  updateClient(client) {
+    const index = _.findIndex(this.state.clients, ["id", client.id]);
+    this.state.clients.splice(index, 1, client)
+    this.setState({
+      clients: this.state.clients,
+    })
+  }
+
   renderClientList() {
     const clientList = this.state.clients.map((client, index) => (
       <Client client={client} key={client.id} index={index} onClick={() => this.setState({ currentClient: client })} />
@@ -46,6 +54,7 @@ export default class Directory extends React.Component {
         <Modal onClose={() => this.setState({currentClient: null})}>
           <ClientForm
             client={this.state.currentClient}
+            onSave={this.updateClient.bind(this)}
           />
         </Modal>
       )
