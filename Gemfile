@@ -45,7 +45,11 @@ group :development, :test do
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
   gem 'rspec-rails', '>=3'
+  gem 'factory_girl_rails'
+
+  # Seed data
   gem 'faker'
+  gem 'discrete_distribution'
 end
 
 group :development do
@@ -57,7 +61,6 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'guard-rspec'
   gem 'terminal-notifier-guard',   require: false
-  gem 'ruby_gntp',                 require: false
   gem 'pry'
 end
 

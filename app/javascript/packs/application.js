@@ -9,6 +9,7 @@ import {
 
 import Dashboard from 'dashboard';
 import Directory from 'directory';
+import CheckIn from 'appointment-check-in';
 
 class App extends Component {
   constructor(props) {
@@ -22,29 +23,45 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div>
+        <div style={Style.app}>
           <nav>
-            <Link to="/">Home</Link>
-            <Link to="/dashboard">Dashboard</Link>
-            <Link to="/directory">Directory</Link>
+            <NavLink to="/">Dashboard</NavLink>
+            <NavLink to="/directory">Directory</NavLink>
           </nav>
-          <Route exact path="/" component={Home} />
           <Route
-            path="/dashboard"
+            path="/"
             render={() => <Dashboard date={this.state.selectedDate} />}
           />
           <Route path="/directory" component={Directory} />
+          <Route
+            path="/appointments/:id/check_in"
+            component={CheckIn}
+          />
         </div>
       </Router>
     );
   }
 }
 
-const Home = () => (
-  <div>
-    Home
-  </div>
-);
+class NavLink extends React.Component {
+  render() {
+    return (
+      <span style={Style.navLink}>
+        <Link {...this.props} />
+      </span>
+    );
+  }
+}
+
+const Style = {
+  app: {
+    fontFamily: 'sans-serif',
+  },
+  navLink: {
+    display: 'inline-block',
+    padding: '1em',
+  },
+};
 
 if(document.getElementById('app')) {
   requestAnimationFrame(() => {
