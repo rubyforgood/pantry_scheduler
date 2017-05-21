@@ -55,14 +55,16 @@ clients = Array.new(100) do
   )
 end
 
-
 appointments = Array.new(500) do
   client = clients.sample
+  date = Faker::Date.between(1.year.ago, Date.today + 2.months)
+  time = Faker::Time.between(date, date, :morning) if date <= Date.today && rand < 0.9
   putc '.'
 
   Appointment.create!(
-    time: Faker::Date.between(1.year.ago, Date.today + 2.months),
+    time: date,
     appointment_type: Appointment::APPOINTMENT_TYPES.sample([1, 2].sample),
+    checked_in_at: time,
     client_id: client.id,
     family_size: client.num_adults + client.num_children,
     usda_qualifier: client.usda_qualifier
