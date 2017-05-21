@@ -136,7 +136,7 @@ const styles = {
     padding: 15,
   },
   rowHeader: {
-    color: 'black',
+    color: '#003366',
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 5,
