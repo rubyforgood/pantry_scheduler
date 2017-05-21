@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Modal from 'modal';
 import ClientForm from 'client-form';
 
@@ -137,8 +136,10 @@ const styles = {
     padding: 15,
   },
   rowHeader: {
+    color: 'black',
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 5,
+    textDecoration: 'none',
   },
 };

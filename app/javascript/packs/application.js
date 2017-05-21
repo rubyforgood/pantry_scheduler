@@ -25,21 +25,23 @@ class App extends Component {
     return (
       <Router>
         <div style={Style.app}>
-          <nav>
-            <NavLink to="/">Dashboard</NavLink>
-            <NavLink to="/directory">Directory</NavLink>
+          <nav style={Style.navBar}>
+            <NavLink to="/" style={Style.navLink}>Dashboard</NavLink>
+            <NavLink to="/directory" style={Style.navLink}> Directory</NavLink>
           </nav>
-          <Route
-            exact
-            path="/"
-            render={() => <Dashboard date={this.state.selectedDate} />}
-          />
-          <Route path="/directory" component={Directory} />
-          { /* FIXME: route below isn't used */ }
-          <Route
-            path="/appointments/:id/check_in"
-            component={CheckIn}
-          />
+          <div style={Style.routeContainer}>
+            <Route
+              exact
+              path="/"
+              render={() => <Dashboard date={this.state.selectedDate} />}
+            />
+            <Route path="/directory" component={Directory} />
+            { /* FIXME: route below isn't used */ }
+            <Route
+              path="/appointments/:id/check_in"
+              component={CheckIn}
+            />
+          </div>
         </div>
       </Router>
     );
@@ -49,7 +51,7 @@ class App extends Component {
 class NavLink extends React.Component {
   render() {
     return (
-      <span style={Style.navLink}>
+      <span style={Style.link}>
         <Link {...this.props} />
       </span>
     );
@@ -63,13 +65,29 @@ const Style = {
     maxWidth: '80%',
     margin: '0 auto',
     padding: '1em 2em',
-    backgroundColor: 'white',
     minHeight: '90vh',
   },
+  navBar: {
+    backgroundColor: '#E5E5E5',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    minWidth: '100%',
+    padding: 10,
+  },
   navLink: {
+    textDecoration: 'none',
+    color: '#696969',
+    fontWeight: 'bold',
+    padding: 30,
+  },
+  link: {
     display: 'inline-block',
     padding: '1em',
   },
+  routeContainer: {
+    marginTop: 70,
+  }
 };
 
 if(document.getElementById('app')) {

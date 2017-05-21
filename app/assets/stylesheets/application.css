@@ -15,7 +15,26 @@
  */
 
 html, body {
-  background-color: #777;
+  background-color: lightSteelBlue;
   margin: 0;
   padding: 0;
+}
+
+
+[data-reactroot] {
+  background-color: lightSteelBlue !important;
+  font-family: 'Marcellus', serif !important;
+}
+
+
+h1, h2, h3 {
+  font-family: 'Cabin Sketch', cursive;
+}
+
+#login {
+  margin-left: 45%;
+  margin-right: 45%;
+  margin-top: 10%;
+  font-family: 'Marcellus', serif !important;
+  min-width: 300px;
 }
