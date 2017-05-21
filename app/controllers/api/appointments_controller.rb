@@ -74,6 +74,6 @@ class API::AppointmentsController < ApplicationController
     end
 
     def appointment_params
-      params.require(:appointment).permit(:time, :client_id, :family_size, :usda_qualifier, appointment_type: [])
+      params.require(:appointment).permit(:time, :client_id, :family_size, :usda_qualifier, :checked_in_at, appointment_type: [])
     end
 end
