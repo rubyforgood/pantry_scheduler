@@ -51,7 +51,8 @@ export default class ClientForm extends Component {
         }}
       >
         <div>
-          <label>Name</label>
+          <h2>Client Information</h2>
+          <label>Name: </label>
           <input
             ref={(element) => this.firstName = element}
             defaultValue={this.props.client.first_name}
@@ -65,8 +66,8 @@ export default class ClientForm extends Component {
             placeholder="Last"
           />
         </div>
-        <div>
-          <label>Address:</label>
+        <div style={styles.row}>
+          <label>Address: </label>
           <input
             ref={(element) => this.address = element}
             defaultValue={this.props.client.address}
@@ -75,14 +76,14 @@ export default class ClientForm extends Component {
           />
         </div>
         <div>
-          <label>Zip:</label>
+          <label>Zip: </label>
           <input
             ref={(element) => this.zip = element}
             defaultValue={this.props.client.zip}
             disabled={this.state.saving}
             placeholder="#####"
           />
-          <label>County:</label>
+          <label> County: </label>
           <select
             ref={(element) => this.county = element}
             defaultValue={this.props.client.county}
@@ -94,8 +95,8 @@ export default class ClientForm extends Component {
             <option>Prince George</option>
           </select>
         </div>
-        <div>
-          <label>Phone</label>
+        <div style={styles.row}>
+          <label>Phone: </label>
           <input
             ref={(element) => this.phoneNumber = element}
             defaultValue={this.props.client.phone_number}
@@ -110,7 +111,7 @@ export default class ClientForm extends Component {
           />
         </div>
         <div>
-          <label>Email</label>
+          <label>Email: </label>
           <input
             ref={(element) => this.email = element}
             defaultValue={this.props.client.email}
@@ -118,23 +119,23 @@ export default class ClientForm extends Component {
             placeholder="me@example.com"
           />
         </div>
-        <div>
-          <legend>Family Info</legend>
-          <label>Adults</label>
+        <div style={styles.row}>
+          <legend style={styles.bold}>Family Info</legend>
+          <label>Adults: </label>
           <input
             ref={(element) => this.numAdults = element}
             defaultValue={this.props.client.num_adults}
             disabled={this.state.saving}
           />
-          <label>Children</label>
+          <label> Children: </label>
           <input
             ref={(element) => this.numChildren = element}
             defaultValue={this.props.client.num_children}
             disabled={this.state.saving}
           />
         </div>
-        <div>
-          <label>USDA Cert</label>
+        <div style={styles.row}>
+          <label>USDA Cert: </label>
           <label>
             <input
               name="usda_qualifier"
@@ -158,7 +159,10 @@ export default class ClientForm extends Component {
         </div>
 
         <div>
-          <label>USDA Cert Date</label>
+          { this.props.client.usda_cert_date
+            ? <label>USDA Cert Date: </label>
+            : null
+          }
         </div>
 
         <div>
@@ -173,3 +177,12 @@ ClientForm.propTypes = {
   client: object.isRequired,
   onSave: func.isRequired,
 }
+
+const styles = {
+  bold: {
+    fontWeight: 'bold',
+  },
+  row: {
+    marginTop: 20,
+  },
+};
