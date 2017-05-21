@@ -76,7 +76,7 @@ export default class Dashboard extends React.Component {
                 ))
 
                 return (
-                  <tr key={client.id} style={Style.appointmentTableRow(index)}>
+                  <tr key={appt.id} style={Style.appointmentTableRow(index)}>
                     <td style={Style.appointmentTableCell}>{client.first_name} {client.last_name}</td>
                     <td style={Style.appointmentTableCellCentered}>{client.county}</td>
                     <td style={Style.appointmentTableCellCentered}>{appt.family_size}</td>
