@@ -142,7 +142,7 @@ export default class Dashboard extends React.Component {
               )).map(note => (
                 <div key={note.id} style={Style.note}>
                   <p>{note.body}</p>
-                  <cite>{note.author}</cite>
+                  <cite>{note.author.email}</cite>
                   <button
                     style={Style.deleteNoteButton}
                     onClick={() => {
