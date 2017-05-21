@@ -38,6 +38,10 @@ Install node and yarn
 
     $ brew install node yarn
 
+Run the Rails Server
+
+    $ rails s
+
 Running the front-end React application:
 
     $ yarn install

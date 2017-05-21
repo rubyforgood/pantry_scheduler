@@ -1,4 +1,6 @@
 import React from 'react';
+import Modal from 'modal';
+import ClientForm from 'client-form';
 
 export default class Directory extends React.Component {
   constructor(props) {
@@ -6,6 +8,7 @@ export default class Directory extends React.Component {
 
     this.state = {
       clients: [],
+      currentClient: null,
     }
   }
 
@@ -22,17 +25,42 @@ export default class Directory extends React.Component {
       })
   }
 
+  updateClient(client) {
+    const index = _.findIndex(this.state.clients, ["id", client.id]);
+    this.state.clients.splice(index, 1, client)
+    this.setState({
+      clients: this.state.clients,
+    })
+  }
+
   renderClientList() {
     const clientList = this.state.clients.map((client, index) => (
-      <Client client={client} key={client.id} index={index} />
+      <Client client={client} key={client.id} index={index} onClick={() => this.setState({ currentClient: client })} />
     ));
 
     return (
       <div style={styles.container}>
         <h2 style={styles.header}>Client Directory</h2>
         {clientList}
+        {this.renderModal()}
       </div>
     );
+  }
+
+  renderModal() {
+    if(this.state.currentClient) {
+      return (
+        <Modal onClose={() => this.setState({currentClient: null})}>
+          <ClientForm
+            client={this.state.currentClient}
+            onSave={(client) => {
+              this.updateClient(client)
+              this.setState({ currentClient: null })
+            }}
+          />
+        </Modal>
+      )
+    }
   }
 
   render() {
@@ -42,7 +70,7 @@ export default class Directory extends React.Component {
   }
 }
 
-const Client = ({ client, index }) => {
+const Client = ({ client, index, onClick }) => {
   const {
     first_name,
     last_name,
@@ -71,7 +99,13 @@ const Client = ({ client, index }) => {
 
   return (
     <div style={index % 2 == 0 ? styles.lightRow : styles.darkRow}>
-      <div style={styles.rowHeader}>{`${client.first_name} ${client.last_name}`}</div>
+      <a
+        onClick={onClick}
+        href={`#client/${client.id}`}
+        style={styles.rowHeader}
+      >
+        {`${client.first_name} ${client.last_name}`}
+      </a>
       <div>{familySize}</div>
       <div>{usda}</div>
       <div>{location}</div>
@@ -102,8 +136,10 @@ const styles = {
     padding: 15,
   },
   rowHeader: {
+    color: 'black',
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 5,
+    textDecoration: 'none',
   },
 };

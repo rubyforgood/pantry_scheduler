@@ -79,7 +79,7 @@ class API::AppointmentsController < ApplicationController
 
   def serialized_notes(notes)
     notes.map { |note|
-      note.as_json.merge(author: note.author && note.author.email)
+      note.as_json(include: :author)
     }
   end
 end

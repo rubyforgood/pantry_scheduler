@@ -10,6 +10,7 @@ import {
 import Dashboard from 'dashboard';
 import Directory from 'directory';
 import CheckIn from 'appointment-check-in';
+import ClientForm from 'client-form';
 
 class App extends Component {
   constructor(props) {
@@ -35,11 +36,12 @@ class App extends Component {
               render={() => <Dashboard date={this.state.selectedDate} />}
             />
             <Route path="/directory" component={Directory} />
+            { /* FIXME: route below isn't used */ }
             <Route
               path="/appointments/:id/check_in"
               component={CheckIn}
             />
-        </div>
+          </div>
         </div>
       </Router>
     );
@@ -50,7 +52,7 @@ class NavLink extends React.Component {
   render() {
     return (
       <span style={Style.link}>
-        <Link activeClassName="active" {...this.props} />
+        <Link {...this.props} />
       </span>
     );
   }

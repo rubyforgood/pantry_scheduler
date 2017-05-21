@@ -1,4 +1,4 @@
-class API::ClientsController < ApplicationController
+class API::ClientsController < APIController
   respond_to :json
 
   def index
@@ -10,6 +10,12 @@ class API::ClientsController < ApplicationController
   def create
     client = Client.create!(create_params)
 
+    render json: { client: client.as_json }
+  end
+
+  def update
+    client = Client.find(params[:id])
+    client.update(create_params)
     render json: { client: client.as_json }
   end
 
