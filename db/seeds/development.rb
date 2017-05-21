@@ -37,6 +37,7 @@ possible_counties = DiscreteDistribution.new(
 
 clients = Array.new(100) do
   county = possible_counties.sample
+  usda_cert_date = ((Faker::Date.between(11.months.ago, Date.today + 1.month) if county == 'PG') if rand < 0.9)
   putc '.'
 
   Client.create!(
@@ -50,8 +51,8 @@ clients = Array.new(100) do
     zip: Faker::Address.zip,
     num_adults: possible_num_adults.sample,
     num_children: possible_num_children.sample,
-    usda_cert_date: ((Faker::Date.between(11.months.ago, Date.today + 1.month) if county == 'PG') if rand < 0.9),
-    usda_qualifier: county == 'PG',
+    usda_cert_date: usda_cert_date,
+    usda_qualifier: !usda_cert_date.nil?,
   )
 end
 
@@ -70,6 +71,46 @@ appointments = Array.new(500) do
     usda_qualifier: client.usda_qualifier
   )
 end
+
+
+# For reviewing the directory, it's helpful to have at least one appointment
+# for today for a client in PG county who doesn't qualify for USDA.
+pg_non_usda_client = Client.where(county: 'PG', usda_qualifier: false).first
+Appointment.create!(
+  time: Date.today,
+  # We'll have them be all appointment types
+  appointment_type: Appointment::APPOINTMENT_TYPES,
+  checked_in_at: (Faker::Time.between(Date.today, Date.today, :morning) if rand < 0.5),
+  client_id: pg_non_usda_client.id,
+  family_size: pg_non_usda_client.num_adults + pg_non_usda_client.num_children,
+  usda_qualifier: pg_non_usda_client.usda_qualifier
+)
+
+# For reviewing the directory, it's helpful to have at least one appointment
+# for today for a client in PG county who does qualify for USDA.
+pg_usda_client = Client.where(county: 'PG', usda_qualifier: true).first
+Appointment.create!(
+  time: Date.today,
+  # We'll have them be all appointment types
+  appointment_type: Appointment::APPOINTMENT_TYPES,
+  checked_in_at: (Faker::Time.between(Date.today, Date.today, :morning) if rand < 0.5),
+  client_id: pg_usda_client.id,
+  family_size: pg_usda_client.num_adults + pg_usda_client.num_children,
+  usda_qualifier: pg_usda_client.usda_qualifier
+)
+
+# For reviewing the directory, it's helpful to have at least one appointment
+# for today for a client in PG county who doesn't qualify for USDA.
+aa_client = Client.where(county: 'AA').first
+Appointment.create!(
+  time: Date.today,
+  # We'll have them be all appointment types
+  appointment_type: Appointment::APPOINTMENT_TYPES,
+  checked_in_at: (Faker::Time.between(Date.today, Date.today, :morning) if rand < 0.5),
+  client_id: aa_client.id,
+  family_size: aa_client.num_adults + aa_client.num_children,
+  usda_qualifier: aa_client.usda_qualifier
+)
 
 
 100.times do
