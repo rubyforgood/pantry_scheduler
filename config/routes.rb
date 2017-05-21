@@ -13,7 +13,7 @@ Rails.application.routes.draw do
       resources :notes, only: [:update, :create], memoable_type: "Client"
     end
     resources :appointments do
-      resources :notes, only: [:update, :create], memoable_type: "Appointment"
+      resources :notes, only: [:update, :create, :destroy], memoable_type: "Appointment"
     end
   end
 

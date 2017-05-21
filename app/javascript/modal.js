@@ -25,7 +25,7 @@ const Style = {
   modal: {
     width: '50%',
     backgroundColor: 'white',
-    margin: '20vh auto',
+    margin: '10vh auto 0',
     padding: '2em',
   },
 };
