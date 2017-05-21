@@ -37,6 +37,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'webpacker'
 
 gem 'devise'
+gem 'faker'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -49,7 +50,6 @@ group :development, :test do
   gem 'database_cleaner'
 
   # Seed data
-  gem 'faker'
   gem 'discrete_distribution'
 end
 
