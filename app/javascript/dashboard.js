@@ -140,8 +140,28 @@ export default class Dashboard extends React.Component {
               this.state.notes.filter((note) => (
                 note.memoable_type === 'Appointment' && note.memoable_id === this.state.apptNotes
               )).map(note => (
-                <div key={note.id}>
+                <div key={note.id} style={Style.note}>
                   <p>{note.body}</p>
+                  <cite>{note.author}</cite>
+                  <button
+                    style={Style.deleteNoteButton}
+                    onClick={() => {
+                      fetch(`/api/appointments/${this.state.apptNotes}/notes/${note.id}`, {
+                        method: 'DELETE',
+                        credentials: 'include',
+                      }).then(() => {
+                        this.setState({
+                          notes: this.state.notes.filter(n => note.id !== n.id)
+                        })
+                      })
+                    }}
+                  >
+                    <img
+                      height='16'
+                      width='16'
+                      src='https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/trash-512.png'
+                    />
+                  </button>
                 </div>
               ))
             }
@@ -184,6 +204,7 @@ class NewNote extends React.Component {
           <textarea
             ref={(element) => this.textarea = element}
             disabled={this.state.saving}
+            style={Style.newNoteField}
           />
         </div>
         <div>
@@ -300,6 +321,7 @@ const Style = {
     verticalAlign: 'top',
     padding: '0.5em',
     margin: '0.5em',
+    outline: 'none',
   },
   appointmentTable: {
     width: '100%',
@@ -342,5 +364,13 @@ const Style = {
     textAlign: 'center',
     borderRadius: '50%',
     backgroundColor: '#ccc',
+  },
+  note: {
+    border: '1px solid #aaa',
+    margin: '0.25em 0',
+    padding: '0 0.5em',
+  },
+  newNoteField: {
+    width: '100%',
   },
 };

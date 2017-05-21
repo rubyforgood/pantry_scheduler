@@ -14,8 +14,12 @@ class API::NotesController < APIController
   end
 
   def create
-    note = find_memoable.notes.create(note_params)
-    render json: { note: note.as_json }
+    note = find_memoable.notes.create(note_params.merge(author: current_user))
+    render json: { note: note.as_json(include: :author) }
+  end
+
+  def destroy
+    Note.destroy params[:id]
   end
 
   private

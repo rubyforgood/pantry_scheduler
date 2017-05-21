@@ -28,7 +28,7 @@ class API::AppointmentsController < ApplicationController
     render json: {
       appointments: appointments.as_json,
       clients: appointments.map(&:client).as_json,
-      notes: appointments.flat_map(&:notes).as_json,
+      notes: serialized_notes(appointments.flat_map(&:notes)),
     }
   end
 
@@ -57,23 +57,29 @@ class API::AppointmentsController < ApplicationController
 
   private
 
-    def render_errors(appt)
-      render json: {
-        errors: {
-          message: appt.errors.full_messages.first
-        }
-      }, status: 400
-    end
+  def render_errors(appt)
+    render json: {
+      errors: {
+        message: appt.errors.full_messages.first
+      }
+    }, status: 400
+  end
 
-    def render_not_found
-      render json: {
-        errors: {
-          message: 'Not found'
-        }
-      }, status: 404
-    end
+  def render_not_found
+    render json: {
+      errors: {
+        message: 'Not found'
+      }
+    }, status: 404
+  end
 
-    def appointment_params
-      params.require(:appointment).permit(:time, :client_id, :family_size, :usda_qualifier, :checked_in_at, appointment_type: [])
-    end
+  def appointment_params
+    params.require(:appointment).permit(:time, :client_id, :family_size, :usda_qualifier, :checked_in_at, appointment_type: [])
+  end
+
+  def serialized_notes(notes)
+    notes.map { |note|
+      note.as_json.merge(author: note.author && note.author.email)
+    }
+  end
 end
