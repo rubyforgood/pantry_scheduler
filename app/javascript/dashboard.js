@@ -187,7 +187,7 @@ class NewNote extends React.Component {
           />
         </div>
         <div>
-          <button>Save</button>
+          <button disabled={this.state.saving}>Save</button>
         </div>
       </form>
     );
