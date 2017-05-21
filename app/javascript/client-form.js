@@ -10,8 +10,29 @@ export default class ClientForm extends Component {
     }
   }
 
-  save(event) {
+  checkIn(event) {
     event.preventDefault();
+    this.setState({ saving: true });
+
+    return fetch(`/api/appointments/${this.props.appointment.id}`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          appointment: {
+            checked_in_at: new Date().toUTCString()
+          },
+        }),
+      })
+      .then(response => response.json())
+      .then(json => this.props.onCheckIn(json.appointment))
+  }
+
+  submit(event) {
+    event.preventDefault();
+    this.setState({ saving: true });
 
     return fetch(`/api/clients/${this.props.client.id}`, {
         method: 'PUT',
@@ -44,12 +65,7 @@ export default class ClientForm extends Component {
 
   render() {
     return (
-      <form
-        onSubmit={(event) => {
-          this.setState({ saving: true });
-          this.save(event)
-        }}
-      >
+      <form>
         <div>
           <h2>Client Information</h2>
           <label>Name: </label>
@@ -166,7 +182,10 @@ export default class ClientForm extends Component {
         </div>
 
         <div>
-          <button style={styles.button}>Save</button>
+          <button style={styles.button} onClick={this.submit.bind(this)}>Save</button>
+          { this.props.onCheckIn && (
+            <button onClick={this.checkIn.bind(this)}>Check In</button>
+          ) }
         </div>
       </form>
     );

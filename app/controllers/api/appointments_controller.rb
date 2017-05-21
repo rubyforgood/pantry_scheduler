@@ -42,7 +42,7 @@ class API::AppointmentsController < APIController
   def update
     appt = Appointment.find(params[:id])
     if appt.update(appointment_params)
-      render json: appt
+      render json: { appointment: appt }
     else
       render_errors(appt)
     end
