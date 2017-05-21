@@ -1,6 +1,5 @@
-class API::NotesController < ApplicationController
+class API::NotesController < APIController
   before_action :authenticate_user!
-  respond_to :json
 
   def update
     note = Note.find_by(id: params["id"])

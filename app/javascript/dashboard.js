@@ -132,18 +132,82 @@ export default class Dashboard extends React.Component {
     if(this.state.apptNotes) {
       return (
         <Modal onClose={() => this.showNotes(null)}>
-          {
-            this.state.notes.filter((note) => (
-              note.memoable_type === 'Appointment' && note.memoable_id === this.state.apptNotes
-            )).map(note => (
-              <div key={note.id}>
-                <p>{note.body}</p>
-              </div>
-            ))
-          }
+          <div>
+            {
+              this.state.notes.filter((note) => (
+                note.memoable_type === 'Appointment' && note.memoable_id === this.state.apptNotes
+              )).map(note => (
+                <div key={note.id}>
+                  <p>{note.body}</p>
+                </div>
+              ))
+            }
+            <NewNote
+              key="new-note"
+              appointmentId={this.state.apptNotes}
+              onSave={({ note }) => {
+                console.log(note)
+                this.setState({
+                  notes: this.state.notes.concat(note),
+                })
+              }}
+            />
+          </div>
         </Modal>
       );
     }
+  }
+}
+
+class NewNote extends React.Component {
+  constructor(props) {
+   super(props);
+
+   this.state = {
+     saving: false,
+   };
+  }
+
+  render() {
+    return (
+      <form
+        onSubmit={(event) => {
+          this.setState({ saving: true });
+          this.save(event)
+            .then(() => this.setState({ saving: false }))
+            .then(() => this.textarea.value = null)
+        }}
+      >
+        <div>
+          <textarea
+            ref={(element) => this.textarea = element}
+            disabled={this.state.saving}
+          />
+        </div>
+        <div>
+          <button>Save</button>
+        </div>
+      </form>
+    );
+  }
+
+  save(event) {
+    event.preventDefault();
+
+    return fetch(`/api/appointments/${this.props.appointmentId}/notes`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        note: {
+          body: this.textarea.value,
+        },
+      }),
+    })
+      .then(response => response.json())
+      .then(json => this.props.onSave(json))
   }
 }
 

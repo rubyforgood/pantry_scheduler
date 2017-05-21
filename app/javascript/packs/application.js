@@ -25,9 +25,9 @@ class App extends Component {
       <Router>
         <div style={Style.app}>
           <nav>
-            <Link to="/">Home</Link>
-            <Link to="/dashboard">Dashboard</Link>
-            <Link to="/directory">Directory</Link>
+            <NavLink to="/">Home</NavLink>
+            <NavLink to="/dashboard">Dashboard</NavLink>
+            <NavLink to="/directory">Directory</NavLink>
           </nav>
           <Route exact path="/" component={Home} />
           <Route
@@ -51,9 +51,23 @@ const Home = () => (
   </div>
 );
 
+class NavLink extends React.Component {
+  render() {
+    return (
+      <span style={Style.navLink}>
+        <Link {...this.props} />
+      </span>
+    );
+  }
+}
+
 const Style = {
   app: {
     fontFamily: 'sans-serif',
+  },
+  navLink: {
+    display: 'inline-block',
+    padding: '1em',
   },
 };
 
