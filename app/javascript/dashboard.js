@@ -72,7 +72,6 @@ export default class Dashboard extends React.Component {
                 const notes = this.state.notes.filter(note => (
                   note.memoable_type === 'Appointment' && note.memoable_id === appt.id
                 ))
-                console.log(appt);
 
                 return (
                   <tr key={client.id} style={Style.appointmentTableRow(index)}>
@@ -150,7 +149,6 @@ export default class Dashboard extends React.Component {
               key="new-note"
               appointmentId={this.state.apptNotes}
               onSave={({ note }) => {
-                console.log(note)
                 this.setState({
                   notes: this.state.notes.concat(note),
                 })
