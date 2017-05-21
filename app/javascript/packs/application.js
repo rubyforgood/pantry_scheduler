@@ -10,6 +10,7 @@ import {
 import Dashboard from 'dashboard';
 import Directory from 'directory';
 import CheckIn from 'appointment-check-in';
+import ClientForm from 'client-form';
 
 class App extends Component {
   constructor(props) {
