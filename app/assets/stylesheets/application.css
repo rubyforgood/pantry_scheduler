@@ -30,3 +30,11 @@ html, body {
 h1, h2, h3 {
   font-family: 'Cabin Sketch', cursive;
 }
+
+#login {
+  margin-left: 45%;
+  margin-right: 45%;
+  margin-top: 10%;
+  font-family: 'Marcellus', serif !important;
+  min-width: 300px;
+}
