@@ -145,7 +145,9 @@ export default class NewAppointment extends React.Component {
       headers: {
         'Content-Type': 'application/json',
       },
-    })
+    }).then(() => {
+      this.props.history.push('/');
+    });
   }
 
   autocompleteName(text) {
