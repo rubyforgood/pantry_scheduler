@@ -52,9 +52,9 @@ export default class Dashboard extends React.Component {
           onChange={(filter) => this.setState({ apptFilter: filter })}
         />
 
-        <table>
+        <table style={Style.appointmentTable}>
           <thead>
-            <tr>
+            <tr style={Style.appointmentTableHeader}>
               <th>Client</th>
               <th>County</th>
               <th>Family Size</th>
@@ -72,21 +72,25 @@ export default class Dashboard extends React.Component {
                 const notes = this.state.notes.filter(note => (
                   note.memoable_type === 'Appointment' && note.memoable_id === appt.id
                 ))
+                console.log(appt);
 
                 return (
-                  <tr key={client.id}>
-                    <td>{client.first_name} {client.last_name}</td>
-                    <td>{client.county}</td>
-                    <td>{appt.family_size}</td>
-                    <td>
-                      <button onClick={() => this.showNotes(appt.id)}>
+                  <tr key={client.id} style={Style.appointmentTableRow(index)}>
+                    <td style={Style.appointmentTableCell}>{client.first_name} {client.last_name}</td>
+                    <td style={Style.appointmentTableCellCentered}>{client.county}</td>
+                    <td style={Style.appointmentTableCellCentered}>{appt.family_size}</td>
+                    <td style={Style.appointmentTableCellCentered}>
+                      <button
+                        onClick={() => this.showNotes(appt.id)}
+                        style={{ display: 'inline-block', width: '100%' }}
+                      >
                         {notes.length > 0 ? notes.length : ''} Note{notes.length === 1 ? '' : 's'}
                       </button>
                     </td>
-                    <td>
-                      <Link to={`/appointments/${appt.id}/check_in`}>
-                        Check In
-                      </Link>
+                    <td style={Style.appointmentTableCellCentered}>
+                      { appt.checked_in_at || (
+                        <CheckInLink appointment={appt} />
+                      ) }
                     </td>
                   </tr>
                 );
@@ -265,6 +269,19 @@ class AppointmentFilterList extends React.Component {
   }
 }
 
+class CheckInLink extends React.Component {
+  render() {
+    return (
+      <Link
+        to={`/appointments/${this.props.appointment.id}/check_in`}
+        style={Style.checkInLink}
+      >
+        Check In
+      </Link>
+    );
+  }
+}
+
 const yep = () => <span>&#10004;</span>;
 const nope = () => <span>&times;</span>;
 
@@ -278,16 +295,49 @@ const Style = {
     padding: 0,
   },
   appointmentFilter: {
+    border: '1px solid #aaa',
+    backgroundColor: 'white',
+    borderRadius: '16px',
     display: 'inline-block',
     verticalAlign: 'top',
     padding: '0.5em',
     margin: '0.5em',
   },
+  appointmentTable: {
+    width: '100%',
+  },
+  appointmentTableHeader: {
+  },
+  appointmentTableRow(row) {
+    return Object.assign({}, this.appointmentTableHeader, {
+      backgroundColor: row % 2 === 0 ? '#ccc' : '#ddd',
+    });
+  },
+  appointmentTableCell: {
+    margin: '-2px',
+    padding: '4px',
+  },
+  appointmentTableCellCentered: {
+    textAlign: 'center',
+    margin: '-2px',
+    padding: '4px',
+  },
+  checkInLink: {
+    display: 'inline-block',
+    fontVariant: 'all-small-caps',
+    textDecoration: 'none',
+    backgroundColor: 'white',
+    color: '#333',
+    padding: '3px 12px',
+    border: '1px solid #888',
+  },
   filterLabel: {
-    
+    display: 'inline-block',
+    paddingLeft: '1em',
   },
   filterCount: {
     display: 'inline-block',
+    paddingTop: '1px',
     marginLeft: '12px',
     width: '16px',
     height: '16px',

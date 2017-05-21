@@ -57,6 +57,12 @@ class NavLink extends React.Component {
 const Style = {
   app: {
     fontFamily: 'sans-serif',
+    width: '800px',
+    maxWidth: '80%',
+    margin: '0 auto',
+    padding: '1em 2em',
+    backgroundColor: 'white',
+    minHeight: '90vh',
   },
   navLink: {
     display: 'inline-block',
