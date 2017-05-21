@@ -29,6 +29,7 @@ class App extends Component {
             <NavLink to="/directory">Directory</NavLink>
           </nav>
           <Route
+            exact
             path="/"
             render={() => <Dashboard date={this.state.selectedDate} />}
           />
