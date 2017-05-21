@@ -229,7 +229,7 @@ class NewNote extends React.Component {
           />
         </div>
         <div>
-          <button disabled={this.state.saving}>Save</button>
+          <button disabled={this.state.saving} style={Style.button}>Save</button>
         </div>
       </form>
     );
@@ -363,6 +363,10 @@ const Style = {
     textAlign: 'center',
     margin: '-2px',
     padding: '4px',
+  },
+  button: {
+    marginTop: 10,
+    padding: 10,
   },
   checkInLink: {
     display: 'inline-block',

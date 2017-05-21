@@ -5,7 +5,7 @@ export default class Modal extends Component {
     return (
       <div style={Style.modalOverlay} onClick={this.props.onClose}>
         <div style={Style.modal} onClick={event => event.stopPropagation()}>
-          <button onClick={this.props.onClose}>&times;</button>
+          <button onClick={this.props.onClose} style={Style.closeIcon}>&times;</button>
           {this.props.children}
         </div>
       </div>
@@ -14,6 +14,13 @@ export default class Modal extends Component {
 }
 
 const Style = {
+  closeIcon: {
+    float: 'right',
+    minHeight: 40,
+    minWidth: 40,
+    fontSize: 20,
+    marginBottom: 20,
+  },
   modalOverlay: {
     position: 'fixed',
     top: 0,

@@ -166,7 +166,7 @@ export default class ClientForm extends Component {
         </div>
 
         <div>
-          <button>Save</button>
+          <button style={styles.button}>Save</button>
         </div>
       </form>
     );
@@ -184,5 +184,9 @@ const styles = {
   },
   row: {
     marginTop: 20,
+  },
+  button: {
+    marginTop: 10,
+    padding: 10,
   },
 };
