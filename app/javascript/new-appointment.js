@@ -17,6 +17,7 @@ export default class NewAppointment extends React.Component {
       <div>
         <form
           onSubmit={this.save.bind(this)}
+          style={Style.appointmentForm}
         >
           <div>
             <input
@@ -39,7 +40,7 @@ export default class NewAppointment extends React.Component {
                   })
               }}
             />
-            <div>
+            <div style={Style.autocompleteContainer}>
               <ul style={Style.autocompleteList}>
                 {this.state.autocompleteClients.map(client => (
                   <li
@@ -151,18 +152,34 @@ export default class NewAppointment extends React.Component {
   }
 
   autocompleteName(text) {
-    return fetch(`/api/clients/autocomplete_name/${text}`, {
-      credentials: 'include',
-    }).then(response => response.json())
+    if(text) {
+      return fetch(`/api/clients/autocomplete_name/${text}`, {
+        credentials: 'include',
+      }).then(response => response.json());
+    } else {
+      return Promise.resolve({ clients: [] });
+    }
   }
 }
 
 const Style = {
+  appointmentForm: {
+    backgroundColor: 'white',
+    padding: '1.5em 2em',
+  },
+  autocompleteContainer: {
+    position: 'relative',
+  },
   autocompleteList: {
     listStyle: 'none',
+    margin: 0,
     padding: 0,
+    top: 0,
+    position: 'absolute',
+    backgroundColor: 'white',
   },
   autocompleteListEntry: {
     border: '1px solid #888',
+    marginBottom: '-1px',
   },
 };
