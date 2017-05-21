@@ -7,6 +7,7 @@ import {
 } from 'lodash';
 import { Link } from 'react-router-dom';
 import Modal from 'modal';
+import ClientForm from 'client-form';
 
 export default class Dashboard extends React.Component {
   constructor(props) {
@@ -14,6 +15,7 @@ export default class Dashboard extends React.Component {
 
     this.state = {
       appointments: [],
+      currentCheckin: null,
       clients: [],
       notes: [],
     };
@@ -88,7 +90,9 @@ export default class Dashboard extends React.Component {
                     </td>
                     <td style={Style.appointmentTableCellCentered}>
                       { appt.checked_in_at || (
-                        <CheckInLink appointment={appt} />
+                        <button onClick={() => this.setState({ currentCheckin: client })}>
+                          Check In
+                        </button>
                       ) }
                     </td>
                   </tr>
@@ -99,6 +103,7 @@ export default class Dashboard extends React.Component {
         </table>
 
         {this.modal()}
+        {this.checkinModal()}
       </div>
     );
   }
@@ -129,6 +134,9 @@ export default class Dashboard extends React.Component {
     this.setState({
       apptNotes: apptId,
     });
+  }
+
+  updateCheckin() {
   }
 
   modal() {
@@ -175,6 +183,19 @@ export default class Dashboard extends React.Component {
               }}
             />
           </div>
+        </Modal>
+      );
+    }
+  }
+
+  checkinModal() {
+    if (this.state.currentCheckin) {
+      return (
+        <Modal onClose={() => this.setState({currentCheckin: null})}>
+          <ClientForm
+            client={this.state.currentCheckin}
+            onSave={this.updateCheckin.bind(this)}
+          />
         </Modal>
       );
     }
@@ -288,6 +309,7 @@ class AppointmentFilterList extends React.Component {
   }
 }
 
+// FIXME: currently unused
 class CheckInLink extends React.Component {
   render() {
     return (

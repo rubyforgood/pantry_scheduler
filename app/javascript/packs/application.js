@@ -35,6 +35,7 @@ class App extends Component {
             render={() => <Dashboard date={this.state.selectedDate} />}
           />
           <Route path="/directory" component={Directory} />
+          { /* FIXME: route below isn't used */ }
           <Route
             path="/appointments/:id/check_in"
             component={CheckIn}
