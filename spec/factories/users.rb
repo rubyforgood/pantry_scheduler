@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :user do
-    email    "moo@moo.com"
+    email    { "user#{SecureRandom.hex}@example.com" }
     password "moomoomoo"
   end
 end

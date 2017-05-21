@@ -42,7 +42,7 @@ RSpec.describe "Client Managment", type: :request do
 
     it "returns nested notes" do
       expect(JSON.parse(response.body).fetch("clients").first).to include("notes" => [])
-      expect(JSON.parse(response.body).fetch("clients").last).to include("notes" => [{"id"=>2, "body"=>"some text", "memoable_type"=>"Client", "memoable_id"=>22}])
+      expect(JSON.parse(response.body).fetch("clients").last).to include("notes" => [{"id"=>2, "body"=>"some text", "memoable_type"=>"Client", "memoable_id"=>22, "author_id" => note.author_id}])
     end
   end
 end
