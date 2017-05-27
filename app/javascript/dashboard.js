@@ -15,7 +15,7 @@ export default class Dashboard extends React.Component {
 
     this.state = {
       appointments: [],
-      currentCheckin: null,
+      currentCheckIn: null,
       clients: [],
       notes: [],
     };
@@ -90,7 +90,7 @@ export default class Dashboard extends React.Component {
                     </td>
                     <td style={Style.appointmentTableCellCentered}>
                       { appt.checked_in_at || (
-                        <button onClick={() => this.setState({ currentCheckin: client })}>
+                        <button onClick={() => this.setState({ currentCheckIn: {client: client, appointment: appt } })}>
                           Check In
                         </button>
                       ) }
@@ -136,7 +136,21 @@ export default class Dashboard extends React.Component {
     });
   }
 
-  updateCheckin() {
+  updateClient(client) {
+    const index = _.findIndex(this.state.clients, ["id", client.id]);
+    this.state.clients.splice(index, 1, client)
+    this.setState({
+      clients: this.state.clients,
+    })
+  }
+
+  checkIn(appointment) {
+    const index = _.findIndex(this.state.appointments, ["id", appointment.id]);
+    this.state.appointments.splice(index, 1, appointment)
+    this.setState({
+      appointments: this.state.appointments,
+      currentCheckIn: null,
+    })
   }
 
   modal() {
@@ -189,12 +203,14 @@ export default class Dashboard extends React.Component {
   }
 
   checkinModal() {
-    if (this.state.currentCheckin) {
+    if (this.state.currentCheckIn) {
       return (
-        <Modal onClose={() => this.setState({currentCheckin: null})}>
+        <Modal onClose={() => this.setState({currentCheckIn: null})}>
           <ClientForm
-            client={this.state.currentCheckin}
-            onSave={this.updateCheckin.bind(this)}
+            client={this.state.currentCheckIn.client}
+            appointment={this.state.currentCheckIn.appointment}
+            onSave={this.updateClient.bind(this)}
+            onCheckIn={this.checkIn.bind(this)}
           />
         </Modal>
       );
