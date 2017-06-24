@@ -72,7 +72,7 @@ class API::AppointmentsController < APIController
   end
 
   def appointment_params
-    params.require(:appointment).permit(:time, :client_id, :family_size, :usda_qualifier, :checked_in_at, appointment_type: [])
+    params.require(:appointment).permit(:time, :client_id, :num_adults, :num_children, :usda_qualifier, :checked_in_at, appointment_type: [])
   end
 
   def serialized_notes(notes)

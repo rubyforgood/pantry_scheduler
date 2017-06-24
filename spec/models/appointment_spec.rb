@@ -3,10 +3,11 @@ require "rails_helper"
 RSpec.describe Appointment, :type => :model do
   context "Client is created" do
     let (:client) { Client.create(first_name: "Paige", last_name: "Bolduc", address: "123 land", county: "Baltimore", zip: 21210, num_adults: 2, num_children: 3, usda_qualifier: true) }
-    let(:default_attrs) { 
+    let(:default_attrs) {
       {
         time: Date.parse('31-12-2010'),
-        family_size: 4,
+        num_adults: 2,
+        num_children: 3,
         usda_qualifier: true,
         appointment_type: ["food"],
         client_id: client.id,

@@ -44,7 +44,8 @@ RSpec.describe "Appointment Managment", type: :request do
       client_id: client.id,
       time: DateTime.new(2017, 5, 5),
       usda_qualifier: false,
-      family_size: 27,
+      num_children: 12,
+      num_adults: 15,
       appointment_type: %w(food)
     }}
 
@@ -73,9 +74,11 @@ RSpec.describe "Appointment Managment", type: :request do
 
   describe 'update' do
     it 'successfully updates appt' do
-      current_family_size = appt.family_size
-      put "/api/appointments/#{appt.id}.json", params: {appointment: {family_size: current_family_size * 2}}
-      expect(appt.reload.family_size).to eql(current_family_size * 2)
+      current_num_adults = appt.num_adults
+      current_num_children = appt.num_children
+      put "/api/appointments/#{appt.id}.json", params: {appointment: {num_adults: current_num_adults * 2, num_children: current_num_children * 2}}
+      expect(appt.reload.num_adults).to eql(current_num_adults * 2)
+      expect(appt.reload.num_children).to eql(current_num_children * 2)
     end
 
     describe 'does not allow client_id to be changed' do
