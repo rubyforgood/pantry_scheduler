@@ -23,6 +23,22 @@ class Appointment < ApplicationRecord
       .where(time: date.beginning_of_day..date.end_of_day)
   end
 
+  def num_adults=(value, client_sync_occurred: false)
+    super(value)
+    sync_client('num_adults', value) unless client_sync_occurred
+  end
+
+  def num_children=(value, client_sync_occurred: false)
+    super(value)
+    sync_client('num_children', value) unless client_sync_occurred
+  end
+
+  def sync_client(attr, value)
+    return if client.nil?
+    client.send("#{attr}=", value, appointment_sync_occurred: true)
+    client.save
+  end
+
   private
 
   def client_is_unchanged
