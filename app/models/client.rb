@@ -2,21 +2,25 @@ class Client < ApplicationRecord
   has_many :appointments
   has_many :notes, as: :memoable
 
-  def update(attributes)
-    sync_appt_adults(attributes[:num_adults]) if attributes[:num_adults].present?
-    sync_appt_children(attributes[:num_children]) if attributes[:num_children].present?
-    super(attributes)
+  def num_adults=(value)
+    sync_future_appointments('num_adults', value)
+    super(value)
   end
 
-  def sync_appt_adults(num_adults)
-    future_appointments.each { |a| a.update(num_adults: num_adults) }
+  def num_children=(value)
+    sync_future_appointments('num_children', value)
+    super(value)
   end
 
-  def sync_appt_children(num_children)
-    future_appointments.each { |a| a.update(num_children: num_children) }
+  def sync_future_appointments(attr, value)
+    future_appointments.each do |a|
+      next if a.send(attr) == value
+      a.send("#{attr}=", value)
+      a.save
+    end
   end
 
   def future_appointments
-    appointments.select { |a| a.time >= DateTime.now.beginning_of_day }
+    appointments.select { |a| a.time >= Date.today.beginning_of_day }
   end
 end
