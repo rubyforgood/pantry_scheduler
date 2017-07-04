@@ -49,7 +49,8 @@ export default class NewAppointment extends React.Component {
                     onClick={() => {
                       this.firstName.value = client.first_name;
                       this.lastName.value = client.last_name;
-                      this.familySize.value = (client.num_adults|0) + (client.num_children|0);
+                      this.numAdults.value = client.num_adults;
+                      this.numChildren.value = client.num_children;
                       this.usdaQualifier.checked = client.usda_qualifier;
 
                       this.setState({
@@ -67,10 +68,20 @@ export default class NewAppointment extends React.Component {
 
           <div>
             <label>
-              Family Size
+              Adults
               <input
                 type="number"
-                ref={(el) => this.familySize = el}
+                ref={(el) => this.numAdults = el}
+              />
+            </label>
+          </div>
+
+          <div>
+            <label>
+              Children
+              <input
+                type="number"
+                ref={(el) => this.numChildren = el}
               />
             </label>
           </div>
@@ -132,7 +143,8 @@ export default class NewAppointment extends React.Component {
         appointment: {
           client_id: this.state.client.id,
           time: new Date().toISOString(),
-          family_size: this.familySize.value,
+          num_adults: this.numAdults.value,
+          num_children: this.numChildren.value,
           usda_qualifier: this.usdaQualifier.checked,
           appointment_type: this.state.appointmentType,
         },

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170521022048) do
+ActiveRecord::Schema.define(version: 20170624144814) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,10 +18,11 @@ ActiveRecord::Schema.define(version: 20170521022048) do
   create_table "appointments", force: :cascade do |t|
     t.datetime "time", null: false
     t.bigint "client_id"
-    t.integer "family_size", null: false
     t.boolean "usda_qualifier", null: false
     t.string "appointment_type", array: true
     t.datetime "checked_in_at"
+    t.integer "num_adults", null: false
+    t.integer "num_children", null: false
     t.index ["client_id"], name: "index_appointments_on_client_id"
   end
 

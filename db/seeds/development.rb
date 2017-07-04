@@ -4,11 +4,13 @@ Faker::Config.locale = 'en-US'
 require 'discrete_distribution'
 
 # Login user
-login_user = User.create!(
-  email: 'admin@example.com',
-  password: 'abc123',
-  password_confirmation: 'abc123',
-)
+unless User.find_by(email: 'admin@example.com')
+  login_user = User.create!(
+    email: 'admin@example.com',
+    password: 'abc123',
+    password_confirmation: 'abc123',
+  )
+end
 
 possible_num_children = DiscreteDistribution.new(
   0 => 3,
@@ -67,7 +69,8 @@ appointments = Array.new(500) do
     appointment_type: Appointment::APPOINTMENT_TYPES.sample([1, 2].sample),
     checked_in_at: time,
     client_id: client.id,
-    family_size: client.num_adults + client.num_children,
+    num_adults: client.num_adults,
+    num_children: client.num_children,
     usda_qualifier: client.usda_qualifier
   )
 end
@@ -82,7 +85,8 @@ Appointment.create!(
   appointment_type: Appointment::APPOINTMENT_TYPES,
   checked_in_at: (Faker::Time.between(Date.today, Date.today, :morning) if rand < 0.5),
   client_id: pg_non_usda_client.id,
-  family_size: pg_non_usda_client.num_adults + pg_non_usda_client.num_children,
+  num_adults: pg_non_usda_client.num_adults,
+  num_children: pg_non_usda_client.num_children,
   usda_qualifier: pg_non_usda_client.usda_qualifier
 )
 
@@ -95,7 +99,8 @@ Appointment.create!(
   appointment_type: Appointment::APPOINTMENT_TYPES,
   checked_in_at: (Faker::Time.between(Date.today, Date.today, :morning) if rand < 0.5),
   client_id: pg_usda_client.id,
-  family_size: pg_usda_client.num_adults + pg_usda_client.num_children,
+  num_adults: pg_usda_client.num_adults,
+  num_children: pg_usda_client.num_children,
   usda_qualifier: pg_usda_client.usda_qualifier
 )
 
@@ -108,7 +113,8 @@ Appointment.create!(
   appointment_type: Appointment::APPOINTMENT_TYPES,
   checked_in_at: (Faker::Time.between(Date.today, Date.today, :morning) if rand < 0.5),
   client_id: aa_client.id,
-  family_size: aa_client.num_adults + aa_client.num_children,
+  num_adults: aa_client.num_adults,
+  num_children: aa_client.num_children,
   usda_qualifier: aa_client.usda_qualifier
 )
 

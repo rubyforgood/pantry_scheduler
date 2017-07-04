@@ -5,7 +5,7 @@ class Appointment < ApplicationRecord
   APPOINTMENT_TYPES = %w(food utilities).freeze
 
   validate do |model|
-    if appointment_type.to_a.empty? 
+    if appointment_type.to_a.empty?
       errors.add :appointment_type, "must have at least one of #{APPOINTMENT_TYPES}"
     else
       model.appointment_type.each do |type|
@@ -21,6 +21,22 @@ class Appointment < ApplicationRecord
   def self.for_day(date)
     includes(:client, :notes)
       .where(time: date.beginning_of_day..date.end_of_day)
+  end
+
+  def num_adults=(value, client_sync_occurred: false)
+    super(value)
+    sync_client('num_adults', value) unless client_sync_occurred
+  end
+
+  def num_children=(value, client_sync_occurred: false)
+    super(value)
+    sync_client('num_children', value) unless client_sync_occurred
+  end
+
+  def sync_client(attr, value)
+    return if client.nil?
+    client.send("#{attr}=", value, appointment_sync_occurred: true)
+    client.save
   end
 
   private
