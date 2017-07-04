@@ -79,7 +79,7 @@ export default class Dashboard extends React.Component {
                   <tr key={appt.id} style={Style.appointmentTableRow(index)}>
                     <td style={Style.appointmentTableCell}>{client.first_name} {client.last_name}</td>
                     <td style={Style.appointmentTableCellCentered}>{client.county}</td>
-                    <td style={Style.appointmentTableCellCentered}>{appt.num_adults + appt.num_children}</td>
+                    <td style={Style.appointmentTableCellCentered}>{client.num_adults + client.num_children}</td>
                     <td style={Style.appointmentTableCellCentered}>
                       <button
                         onClick={() => this.showNotes(appt.id)}
