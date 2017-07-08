@@ -112,18 +112,21 @@ export default class ClientForm extends Component {
           </select>
         </div>
         <div style={styles.row}>
-          <label>Phone: </label>
+          <legend style={styles.bold}>Phone</legend>
+          <label>(H): </label>
           <input
             ref={(element) => this.phoneNumber = element}
             defaultValue={this.props.client.phone_number}
             disabled={this.state.saving}
-            placeholder="Home"
+            placeholder="Home number"
           />
+          {'  '}
+          <label>(C): </label>
           <input
             ref={(element) => this.cellNumber = element}
             defaultValue={this.props.client.cell_number}
             disabled={this.state.saving}
-            placeholder="Cell"
+            placeholder="Cell number"
           />
         </div>
         <div>
