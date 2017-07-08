@@ -34,8 +34,11 @@ export default class ClientForm extends Component {
     event.preventDefault();
     this.setState({ saving: true });
 
-    return fetch(`/api/clients/${this.props.client.id}`, {
-        method: 'PUT',
+    let url = Number.isInteger(this.props.client.id) ? `/api/clients/${this.props.client.id}` : `/api/clients`
+    let method = Number.isInteger(this.props.client.id) ? 'PUT' : 'POST'
+
+    return fetch(url, {
+        method: method,
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
@@ -167,7 +170,7 @@ export default class ClientForm extends Component {
               name="usda_qualifier"
               type="radio"
               ref={() => this.usdaQualifier = { value: this.props.client.usda_qualifier }}
-              defaultChecked={!this.props.client.usda_qualifier}
+              defaultChecked={this.props.client.usda_qualifier === false}
               onChange={() => this.usdaQualifier = { value: false }}
             />
             N

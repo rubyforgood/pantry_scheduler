@@ -12,6 +12,7 @@ import Directory from 'directory';
 import CheckIn from 'appointment-check-in';
 import ClientForm from 'client-form';
 import NewAppointment from 'new-appointment';
+import NewClient from 'new-client';
 
 class App extends Component {
   constructor(props) {
@@ -30,6 +31,7 @@ class App extends Component {
             <NavLink to="/" style={Style.navLink}>Dashboard</NavLink>
             <NavLink to="/directory" style={Style.navLink}> Directory</NavLink>
             <NavLink to="/new_appointment" style={Style.navLink}>New Appointment</NavLink>
+            <NavLink to="/new_client" style={Style.navLink}>New Client</NavLink>
           </nav>
           <div style={Style.routeContainer}>
             <Route
@@ -39,6 +41,7 @@ class App extends Component {
             />
             <Route path="/directory" component={Directory} />
             <Route path="/new_appointment" component={NewAppointment} />
+            <Route path="/new_client" component={NewClient} />
             { /* FIXME: route below isn't used */ }
             <Route
               path="/appointments/:id/check_in"
