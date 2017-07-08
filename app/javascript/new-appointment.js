@@ -3,11 +3,6 @@ import { includes } from 'lodash';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 
-import 'react-datepicker/dist/react-datepicker.css';
-
-// CSS Modules, react-datepicker-cssmodules.css
-// import 'react-datepicker/dist/react-datepicker-cssmodules.css';
-
 export default class NewAppointment extends React.Component {
   constructor(props) {
     super(props);
