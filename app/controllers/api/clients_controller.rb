@@ -8,15 +8,23 @@ class API::ClientsController < APIController
   end
 
   def create
-    client = Client.create!(create_params)
+    client = Client.new(client_params)
 
-    render json: { client: client.as_json }
+    if client.save
+      render json: { client: client.as_json }
+    else
+      render_errors(client)
+    end
   end
 
   def update
     client = Client.find(params[:id])
-    client.update(create_params)
-    render json: { client: client.as_json }
+
+    if client.update(client_params)
+      render json: { client: client.as_json }
+    else
+      render_errors(client)
+    end
   end
 
   def autocomplete_name
@@ -29,7 +37,7 @@ class API::ClientsController < APIController
 
   private
 
-  def create_params
+  def client_params
     params
       .require(:client)
       .permit(

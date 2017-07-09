@@ -4,8 +4,11 @@ Faker::Config.locale = 'en-US'
 require 'discrete_distribution'
 
 # Login user
-unless User.find_by(email: 'admin@example.com')
-  login_user = User.create!(
+existing_user = User.find_by(email: 'admin@example.com')
+login_user = if existing_user
+  existing_user
+else
+  User.create!(
     email: 'admin@example.com',
     password: 'abc123',
     password_confirmation: 'abc123',
@@ -39,7 +42,7 @@ possible_counties = DiscreteDistribution.new(
 
 clients = Array.new(100) do
   county = possible_counties.sample
-  usda_cert_date = ((Faker::Date.between(11.months.ago, Date.today + 1.month) if county == 'PG') if rand < 0.9)
+  usda_cert_date = ((Faker::Date.between(Date.today - 11.months, Date.today + 1.month) if county == 'PG') if rand < 0.9)
   putc '.'
 
   Client.create!(
@@ -60,7 +63,7 @@ end
 
 appointments = Array.new(500) do
   client = clients.sample
-  date = Faker::Date.between(1.year.ago, Date.today + 2.months)
+  date = Faker::Date.between(Date.today - 1.year, Date.today + 2.months)
   time = Faker::Time.between(date, date, :morning) if date <= Date.today && rand < 0.9
   putc '.'
 
