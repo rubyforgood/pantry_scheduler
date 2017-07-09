@@ -1,5 +1,7 @@
 import React from 'react';
 import { includes } from 'lodash';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
 
 export default class NewAppointment extends React.Component {
   constructor(props) {
@@ -9,6 +11,7 @@ export default class NewAppointment extends React.Component {
       client: {},
       autocompleteClients: [],
       appointmentType: [],
+      appointmentDate: moment(),
     };
   }
 
@@ -97,6 +100,14 @@ export default class NewAppointment extends React.Component {
           </div>
 
           <div>
+            Date
+            <DatePicker
+              selected={this.state.appointmentDate}
+              onChange={(date) => { this.setState({ appointmentDate: date }) }}
+            />
+          </div>
+
+          <div>
             Appointment Type
             <div>
               <label>
@@ -142,7 +153,7 @@ export default class NewAppointment extends React.Component {
     const blob = {
         appointment: {
           client_id: this.state.client.id,
-          time: new Date().toISOString(),
+          time: this.state.appointmentDate,
           num_adults: this.numAdults.value,
           num_children: this.numChildren.value,
           usda_qualifier: this.usdaQualifier.checked,
