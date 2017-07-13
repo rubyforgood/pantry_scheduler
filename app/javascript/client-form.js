@@ -109,9 +109,9 @@ export default class ClientForm extends Component {
             disabled={this.state.saving}
           >
             <option />
-            <option>Anne Arundel</option>
-            <option>Howard</option>
-            <option>Prince George</option>
+            <option value="AA">Anne Arundel</option>
+            <option value="HO">Howard</option>
+            <option value="PG">Prince George</option>
           </select>
         </div>
         <div style={styles.row}>

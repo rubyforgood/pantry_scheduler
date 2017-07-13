@@ -4,7 +4,7 @@ RSpec.describe Appointment, :type => :model do
   context "Appointment is created" do
     let (:initial_num_adults) { 2 }
     let (:initial_num_children) { 3 }
-    let (:client) { Client.create(first_name: "Paige", last_name: "Bolduc", address: "123 land", county: "Baltimore", zip: 21210, num_adults: initial_num_adults, num_children: initial_num_children, usda_qualifier: true) }
+    let (:client) { Client.create(first_name: "Paige", last_name: "Bolduc", address: "123 land", county: "AA", zip: 21210, num_adults: initial_num_adults, num_children: initial_num_children, usda_qualifier: true) }
     let(:default_attrs) {
       {
         time: Date.parse('31-12-2010'),

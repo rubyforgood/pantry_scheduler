@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "Appointment Managment", type: :request do
   let!(:client) { FactoryGirl.create(:client) }
-  let!(:appt)   { FactoryGirl.create(:appointment, client: client, time: Time.now) }
+  let!(:appt)   { FactoryGirl.create(:appointment, client: client, time: Date.today) }
 
   let (:response_json) { JSON.parse(response.body, symbolize_names: true) }
 
@@ -25,9 +25,9 @@ RSpec.describe "Appointment Managment", type: :request do
   end
 
   describe 'today' do
-    let!(:yesterday) { FactoryGirl.create(:appointment, client: client, time: 1.day.ago) }
+    let!(:yesterday) { FactoryGirl.create(:appointment, client: client, time: Date.today - 1) }
     let!(:today)     { appt }
-    let!(:tomorrow)  { FactoryGirl.create(:appointment, client: client, time: 1.day.from_now) }
+    let!(:tomorrow)  { FactoryGirl.create(:appointment, client: client, time: Date.today + 1) }
 
     it 'fetches appointments for today' do
       get '/api/appointments/today.json'

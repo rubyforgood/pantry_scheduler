@@ -55,22 +55,6 @@ class API::AppointmentsController < APIController
 
   private
 
-  def render_errors(appt)
-    render json: {
-      errors: {
-        message: appt.errors.full_messages.first
-      }
-    }, status: 400
-  end
-
-  def render_not_found
-    render json: {
-      errors: {
-        message: 'Not found'
-      }
-    }, status: 404
-  end
-
   def appointment_params
     params.require(:appointment).permit(:time, :client_id, :num_adults, :num_children, :usda_qualifier, :checked_in_at, appointment_type: [])
   end

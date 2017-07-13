@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :appointment do
     association :client
-    time Time.now
+    time Date.today
     num_children 12
     num_adults 15
     usda_qualifier false

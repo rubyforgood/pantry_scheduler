@@ -4,10 +4,10 @@ RSpec.describe Client, :type => :model do
   context "Client family size is updated" do
     let(:initial_num_adults) { 2 }
     let(:initial_num_children) { 3 }
-    let(:client) { Client.create(first_name: "Paige", last_name: "Bolduc", address: "123 land", county: "Baltimore", zip: 21210, num_adults: initial_num_adults, num_children: initial_num_children, usda_qualifier: true) }
-    let!(:today_appt)   { FactoryGirl.create(:appointment, client: client, num_adults: initial_num_adults, num_children: initial_num_children, time: DateTime.now) }
-    let!(:future_appt)   { FactoryGirl.create(:appointment, client: client, num_adults: initial_num_adults, num_children: initial_num_children, time: DateTime.now + 1) }
-    let!(:past_appt)   { FactoryGirl.create(:appointment, client: client, num_adults: initial_num_adults, num_children: initial_num_children, time: DateTime.now - 1) }
+    let(:client) { Client.create(first_name: "Paige", last_name: "Bolduc", address: "123 land", county: "AA", zip: 21210, num_adults: initial_num_adults, num_children: initial_num_children, usda_qualifier: true) }
+    let!(:today_appt)   { FactoryGirl.create(:appointment, client: client, num_adults: initial_num_adults, num_children: initial_num_children, time: Date.today) }
+    let!(:future_appt)   { FactoryGirl.create(:appointment, client: client, num_adults: initial_num_adults, num_children: initial_num_children, time: Date.today + 1) }
+    let!(:past_appt)   { FactoryGirl.create(:appointment, client: client, num_adults: initial_num_adults, num_children: initial_num_children, time: Date.today - 1) }
 
     before do
       client.reload.update(num_adults: initial_num_adults * 2, num_children: initial_num_children * 2)

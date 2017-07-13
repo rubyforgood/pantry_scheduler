@@ -2,6 +2,15 @@ class Client < ApplicationRecord
   has_many :appointments
   has_many :notes, as: :memoable
 
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+  validates :address, presence: true
+  validates_inclusion_of :county, in: ['PG', 'AA', 'HO']
+  validates :zip, presence: true
+  validates :num_adults, presence: true
+  validates :num_children, presence: true
+  validates_inclusion_of :usda_qualifier, in: [true, false]
+
   def num_adults=(value, appointment_sync_occurred: false)
     super(value)
     sync_future_appointments('num_adults', value) unless appointment_sync_occurred
