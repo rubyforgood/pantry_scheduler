@@ -203,7 +203,7 @@ export default class ClientForm extends Component {
   }
 
   renderNotesSection() {
-    if (this.props.notes.length > 0) {
+    if (this.props.notes && this.props.notes.length > 0) {
       return (
         this.props.notes.map(note => (
           <div key={note.id} style={styles.note}>
