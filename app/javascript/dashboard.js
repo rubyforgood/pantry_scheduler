@@ -202,12 +202,21 @@ export default class Dashboard extends React.Component {
     }
   }
 
+  getClientNotes() {
+    if (this.state.currentCheckIn) {
+      return this.state.notes.filter((note) => (
+        note.memoable_type === 'Client' && note.memoable_id === this.state.currentCheckIn.appointment.client_id
+      ))
+    }
+  }
+
   checkinModal() {
     if (this.state.currentCheckIn) {
       return (
         <Modal onClose={() => this.setState({currentCheckIn: null})}>
           <ClientForm
             client={this.state.currentCheckIn.client}
+            notes={this.getClientNotes()}
             appointment={this.state.currentCheckIn.appointment}
             onSave={this.updateClient.bind(this)}
             onCheckIn={this.checkIn.bind(this)}
