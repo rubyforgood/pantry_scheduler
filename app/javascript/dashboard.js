@@ -72,7 +72,7 @@ export default class Dashboard extends React.Component {
                   c.id === appt.client_id
                 ));
                 const notes = this.state.notes.filter(note => (
-                  note.memoable_type === 'Appointment' && note.memoable_id === appt.id
+                  note.memoable_type === 'Client' && note.memoable_id === appt.client_id
                 ))
 
                 return (
@@ -82,7 +82,7 @@ export default class Dashboard extends React.Component {
                     <td style={Style.appointmentTableCellCentered}>{client.num_adults + client.num_children}</td>
                     <td style={Style.appointmentTableCellCentered}>
                       <button
-                        onClick={() => this.showNotes(appt.id)}
+                        onClick={() => this.showNotes(appt.client_id)}
                         style={{ display: 'inline-block', width: '100%' }}
                       >
                         {notes.length > 0 ? notes.length : ''} Note{notes.length === 1 ? '' : 's'}
@@ -130,9 +130,9 @@ export default class Dashboard extends React.Component {
     return filtered;
   }
 
-  showNotes(apptId) {
+  showNotes(clientId) {
     this.setState({
-      apptNotes: apptId,
+      clientNotesId: clientId,
     });
   }
 
@@ -154,13 +154,13 @@ export default class Dashboard extends React.Component {
   }
 
   modal() {
-    if(this.state.apptNotes) {
+    if(this.state.clientNotesId) {
       return (
         <Modal onClose={() => this.showNotes(null)}>
           <div>
             {
               this.state.notes.filter((note) => (
-                note.memoable_type === 'Appointment' && note.memoable_id === this.state.apptNotes
+                note.memoable_type === 'Client' && note.memoable_id === this.state.clientNotesId
               )).map(note => (
                 <div key={note.id} style={Style.note}>
                   <p>{note.body}</p>
@@ -168,7 +168,7 @@ export default class Dashboard extends React.Component {
                   <button
                     style={Style.deleteNoteButton}
                     onClick={() => {
-                      fetch(`/api/appointments/${this.state.apptNotes}/notes/${note.id}`, {
+                      fetch(`/api/clients/${this.state.clientNotesId}/notes/${note.id}`, {
                         method: 'DELETE',
                         credentials: 'include',
                       }).then(() => {
@@ -189,7 +189,7 @@ export default class Dashboard extends React.Component {
             }
             <NewNote
               key="new-note"
-              appointmentId={this.state.apptNotes}
+              clientId={this.state.clientNotesId}
               onSave={({ note }) => {
                 this.setState({
                   notes: this.state.notes.concat(note),
@@ -254,7 +254,7 @@ class NewNote extends React.Component {
   save(event) {
     event.preventDefault();
 
-    return fetch(`/api/appointments/${this.props.appointmentId}/notes`, {
+    return fetch(`/api/clients/${this.props.clientId}/notes`, {
       method: 'POST',
       credentials: 'include',
       headers: {
