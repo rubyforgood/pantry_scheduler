@@ -10,7 +10,7 @@ export default class NewAppointment extends React.Component {
     this.state = {
       client: {},
       autocompleteClients: [],
-      appointmentType: [],
+      appointmentType: ["food"],
       appointmentDate: moment(),
     };
   }
@@ -113,6 +113,7 @@ export default class NewAppointment extends React.Component {
               <label>
                 <input
                   type="checkbox"
+                  defaultChecked={includes(this.state.appointmentType, 'food')}
                   onChange={(event) => {
                     this.setState({
                       appointmentType: includes(this.state.appointmentType, 'food') ?
