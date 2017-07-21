@@ -53,6 +53,7 @@ export default class Directory extends React.Component {
         <Modal onClose={() => this.setState({currentClient: null})}>
           <ClientForm
             client={this.state.currentClient}
+            notes={this.state.currentClient.notes}
             onSave={(client) => {
               this.updateClient(client)
               this.setState({ currentClient: null })

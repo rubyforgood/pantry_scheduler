@@ -22,11 +22,12 @@ class API::AppointmentsController < APIController
 
   def today
     appointments = Appointment.for_day(Date.today)
+    client_notes = serialized_notes(appointments.map(&:client).flat_map(&:notes))
 
     render json: {
       appointments: appointments.as_json,
       clients: appointments.map(&:client).as_json,
-      notes: serialized_notes(appointments.flat_map(&:notes)),
+      notes: client_notes,
     }
   end
 

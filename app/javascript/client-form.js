@@ -187,6 +187,11 @@ export default class ClientForm extends Component {
           }
         </div>
 
+        <div style={styles.row}>
+          <label style={styles.bold}>Notes: </label>
+          {this.renderNotesSection()}
+        </div>
+
         <div>
           <button style={styles.button} onClick={this.submit.bind(this)}>Save</button>
           { this.props.onCheckIn && (
@@ -196,6 +201,18 @@ export default class ClientForm extends Component {
       </form>
     );
   }
+
+  renderNotesSection() {
+    if (this.props.notes && this.props.notes.length > 0) {
+      return (
+        this.props.notes.map(note => (
+          <div key={note.id} style={styles.note}>
+            <p>{note.body}</p>
+          </div>
+        )));
+     }
+     return <div>N/A</div>;
+   }
 }
 
 ClientForm.propTypes = {
@@ -213,5 +230,9 @@ const styles = {
   button: {
     marginTop: 10,
     padding: 10,
+  },
+  note: {
+    margin: '0.25em 0',
+    padding: '0 0.5em',
   },
 };
