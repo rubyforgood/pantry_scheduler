@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
-  resources :users, only: [:create]
+  resources :users, only: [:create, :update]
 
   namespace :api do
     resources :clients
