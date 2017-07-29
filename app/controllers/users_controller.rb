@@ -7,4 +7,17 @@ class UsersController < ApplicationController
 
     head :ok
   end
+
+  def update
+    user = User.find_by(email: params.fetch("user").fetch("email"))
+    if user.update(user_params)
+      head :ok
+    end
+  end
+
+  private
+  
+  def user_params
+    params.require(:user).permit(:password)
+  end
 end
