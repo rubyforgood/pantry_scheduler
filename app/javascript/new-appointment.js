@@ -99,11 +99,12 @@ export default class NewAppointment extends React.Component {
             </label>
           </div>
 
-          <div>
+          <div style={Style.datePicker}>
             Date
             <DatePicker
               selected={this.state.appointmentDate}
               onChange={(date) => { this.setState({ appointmentDate: date }) }}
+              style={Style.datePicker}
             />
           </div>
 
@@ -193,6 +194,7 @@ const Style = {
   },
   autocompleteContainer: {
     position: 'relative',
+    zIndex: 5,
   },
   autocompleteList: {
     listStyle: 'none',
@@ -201,9 +203,14 @@ const Style = {
     top: 0,
     position: 'absolute',
     backgroundColor: 'white',
+    zIndex: 5,
   },
   autocompleteListEntry: {
     border: '1px solid #888',
     marginBottom: '-1px',
+    zIndex: 5,
+  },
+  datePicker: {
+    zIndex: -1,
   },
 };
