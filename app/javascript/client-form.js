@@ -10,6 +10,13 @@ export default class ClientForm extends Component {
     this.state = {
       saving: false,
       showNewNoteModal: false,
+      notes: this.props.notes,
+    }
+  }
+
+  componentDidUpdate(lastProps) {
+    if (lastProps.notes !== this.props.notes) {
+      this.setState({notes: this.props.notes});
     }
   }
 
@@ -63,7 +70,11 @@ export default class ClientForm extends Component {
         }),
       })
       .then(response => response.json())
-      .then(json => this.props.onSave(json.client))
+      .then(json => {
+        var updatedClient = json.client;
+        updatedClient.notes = this.state.notes;
+        this.props.onSave(updatedClient);
+      })
   }
 
   reset() {
@@ -210,9 +221,9 @@ export default class ClientForm extends Component {
   }
 
   renderNotesSection() {
-    if (this.props.notes && this.props.notes.length > 0) {
+    if (this.state.notes && this.state.notes.length > 0) {
       return (
-        this.props.notes.map(note => (
+        this.state.notes.map(note => (
           <div key={note.id} style={styles.note}>
             <p>{note.body}</p>
           </div>
@@ -225,36 +236,23 @@ export default class ClientForm extends Component {
     if(this.state.showNewNoteModal) {
       return (
         <Modal onClose={() => this.setState({showNewNoteModal: false})}>
+          <h3>Notes for {`${this.props.client.first_name} ${this.props.client.last_name}`}</h3>
           <div>
             {
-              this.props.notes.map(note => (
+              this.state.notes.map(note => (
                 <div key={note.id} style={styles.note}>
                   <p>{note.body}</p>
-                  <button
-                    style={styles.deleteNoteButton}
-                    onClick={() => {
-                      fetch(`/api/clients/${this.props.client.id}/notes/${note.id}`, {
-                        method: 'DELETE',
-                        credentials: 'include',
-                      }).then(() => {
-                        this.setState({
-                          notes: this.props.notes.filter(n => note.id !== n.id)
-                        })
-                      })
-                    }}
-                  >
-                    <img
-                      height='16'
-                      width='16'
-                      src='https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/trash-512.png'
-                    />
-                  </button>
                 </div>
               ))
             }
             <NewNote
               key="new-note"
               clientId={this.props.client.id}
+              onSave={({ note }) => {
+                this.setState({
+                  notes: this.state.notes.concat(note),
+                })
+              }}
             />
           </div>
         </Modal>
