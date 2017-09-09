@@ -37,6 +37,8 @@ gem 'jbuilder', '~> 2.5'
 gem 'webpacker'
 
 gem 'devise'
+gem 'devise_invitable'
+
 gem 'faker'
 
 group :development, :test do
