@@ -205,7 +205,7 @@ export default class ClientForm extends Component {
           <div style={styles.row}>
             <label style={styles.bold}>Notes: </label>
             {this.renderNotesSection()}
-            <button style={styles.button} onClick={() => {this.setState({showNewNoteModal: true})}}>Add Client Note</button>
+            <button type="button" style={styles.button} onClick={() => {this.setState({showNewNoteModal: true})}}>Add Client Note</button>
           </div>
 
           <div>
