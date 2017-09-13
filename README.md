@@ -47,3 +47,14 @@ Running the front-end React application:
     $ yarn install
     $ ./bin/webpack-dev-server
     navigate to localhost:3000 in the browser
+
+*** Webpack error ****
+
+Resolving webpack error after running rails s and navigating to localhost:3000:
+
+    $ Run ./bin/rails webpacker:install and ./bin/yarn install
+    $ Run bin/webpack-dev-server
+
+    Close your terminal
+
+    $ Run rails s again
