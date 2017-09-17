@@ -37,16 +37,12 @@ This command  will also create a development user for you to login as with the f
 Install node and yarn
 
     $ brew install node yarn
+    $ yarn install
 
 Run the Rails Server
 
     $ rails s
 
-Running the front-end React application:
-
-    $ yarn install
-    $ ./bin/webpack-dev-server
-    navigate to localhost:3000 in the browser
 
 *** Webpack error ****
 
