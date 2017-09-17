@@ -6,5 +6,5 @@ before_script:
   # Need to ensure development seed succeeds even though it's not an explicit
   # test. We immediately drop this DB when it succeeds to make way for our test
   # DB.
-  - RAILS_ENV=development rake db:setup db:drop
-  - RAILS_ENV=test rake db:create db:schema:load
+  - RAILS_ENV=development bundle exec rake db:setup db:drop
+  - RAILS_ENV=test bundle exec rake db:create db:schema:load
