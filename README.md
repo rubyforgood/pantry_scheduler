@@ -29,6 +29,17 @@ Create and migrate your development database:
 
     $ bundle exec rake db:setup
 
+_NOTE_: If you are using Cloud9 for development, it's possible that that command will fail. If it does, you'll need to do some special setup:
+
+- In `config/database.yml`, under the `development` entry, add the following property: `template: template0`
+  - I don't know if it's okay to commit this. I haven't tested it outside of C9.
+- Execute the following commands in this order:
+  - `sudo service start postgresql`
+  - `sudo -u postgres psql`
+  - `CREATE USER <your_c9_username> SUPERUSER;` (where `<your_c9_username>` is your username on Cloud9)
+  - `\q`
+  - `bundle exec rake db:setup`
+
 This command  will also create a development user for you to login as with the following credentials:
 
     email: admin@example.com
@@ -37,6 +48,11 @@ This command  will also create a development user for you to login as with the f
 Install node and yarn
 
     $ brew install node yarn
+
+On Cloud9, `node` will be there, but you'll have to install `yarn` with `npm install -g yarn`.
+
+Then, install all of the JavaScript dependencies with `yarn`:
+
     $ yarn install
 
 Run the Rails Server
