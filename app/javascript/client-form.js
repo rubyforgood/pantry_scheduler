@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { func, object } from 'prop-types';
 
+import UsdaAlert from './components/client-form/usda-alert.js';
+
 export default class ClientForm extends Component {
   constructor(props) {
     super(props);
@@ -241,41 +243,4 @@ const styles = {
     display: 'flex',
     flexDirection: 'row'
   },
-  usdaAlert: {
-    margin: '10px',
-    border: '2px solid black',
-    textAlign: 'center',
-    height: '5.5em'
-  }
-
 };
-
-class UsdaAlert extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
-    this.validateUSDACert = this.validateUSDACert.bind(this)
-  }
-
-  validateUSDACert () {
-    const usdaCertDate = new Date(this.props.clientInfo.usda_cert_date)
-    const today = new Date()
-    const usdaCertYear = usdaCertDate.getFullYear();
-    const usdaCertMonth = usdaCertDate.getMonth()
-    const usdaCertDay = usdaCertDate.getDate()
-    const expirationDate = new Date(usdaCertYear + 1, usdaCertMonth, usdaCertDay)
-    const isExpired = expirationDate < today
-    return (this.props.clientInfo.usda_qualifier === true) && 
-      (this.props.clientInfo.usda_cert_date === null || isExpired )
-  }
-
-  render() {
-    const alertDiv =  <div style={styles.usdaAlert}><h3>USDA certification is not signed or has expired</h3></div>
-    const alert = this.validateUSDACert() ? alertDiv : null
-    return (
-      <div>
-        { alert }
-      </div>
-    )
-  }
-}
