@@ -6,7 +6,6 @@ import NewNote from 'new-note';
 export default class ClientForm extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       saving: false,
       showNewNoteModal: false,
@@ -82,7 +81,7 @@ export default class ClientForm extends Component {
 
   render() {
     return (
-      <div>
+      <section style={styles.clientInfoBox}>
         <form>
           <div>
             <h2>Client Information</h2>
@@ -216,7 +215,7 @@ export default class ClientForm extends Component {
           </div>
         </form>
         {this.renderNewNoteModal()}
-      </div>
+      </section>
     );
   }
 
@@ -284,4 +283,45 @@ const styles = {
   newNoteField: {
     width: '100%',
   },
+  clientInfoBox: {
+    display: 'flex',
+    flexDirection: 'row'
+  },
+  usdaAlert: {
+    margin: '10px',
+    border: '2px solid black',
+    textAlign: 'center',
+    height: '5.5em'
+  }
+
 };
+
+class UsdaAlert extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {}
+    this.validateUSDACert = this.validateUSDACert.bind(this)
+  }
+
+  validateUSDACert () {
+    const usdaCertDate = new Date(this.props.clientInfo.usda_cert_date)
+    const today = new Date()
+    const usdaCertYear = usdaCertDate.getFullYear();
+    const usdaCertMonth = usdaCertDate.getMonth()
+    const usdaCertDay = usdaCertDate.getDate()
+    const expirationDate = new Date(usdaCertYear + 1, usdaCertMonth, usdaCertDay)
+    const isExpired = expirationDate < today
+    return (this.props.clientInfo.usda_qualifier === true) && 
+      (this.props.clientInfo.usda_cert_date === null || isExpired )
+  }
+
+  render() {
+    const alertDiv =  <div style={styles.usdaAlert}><h3>USDA certification is not signed or has expired</h3></div>
+    const alert = this.validateUSDACert() ? alertDiv : null
+    return (
+      <div>
+        { alert }
+      </div>
+    )
+  }
+}
