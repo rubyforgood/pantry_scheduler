@@ -55,6 +55,12 @@ export default class NewAppointment extends React.Component {
                       this.numAdults.value = client.num_adults;
                       this.numChildren.value = client.num_children;
                       this.usdaQualifier.checked = client.usda_qualifier;
+                      this.address.value = client.address;
+                      this.zip.value = client.zip;
+                      this.county.value = client.county;
+                      this.phoneNumber.value = client.phone_number;
+                      this.cellNumber.value = client.cell_number;
+                      this.email.value = client.email;
 
                       this.setState({
                         client: client,
@@ -68,6 +74,52 @@ export default class NewAppointment extends React.Component {
               </ul>
             </div>
           </div>
+
+        <div style={Style.row}>
+          <label>Address: </label>
+          <input
+            ref={(element) => this.address = element}
+            placeholder="123 Main St"
+          />
+        </div>
+        <div>
+          <label>Zip: </label>
+          <input
+            ref={(element) => this.zip = element}
+            placeholder="#####"
+          />
+          <label> County: </label>
+          <select
+            ref={(element) => this.county = element}
+          >
+            <option />
+            <option value="AA">Anne Arundel</option>
+            <option value="HO">Howard</option>
+            <option value="PG">Prince George</option>
+          </select>
+        </div>
+        <div style={Style.row}>
+          <label style={Style.bold}>Phone </label>
+          <label>(H):</label>
+          <input
+            ref={(element) => this.phoneNumber = element}
+            placeholder="Home number"
+          />
+          {'  '}
+          <label>(C):</label>
+          <input
+            ref={(element) => this.cellNumber = element}
+            placeholder="Cell number"
+          />
+        </div>
+        <div>
+          <label>Email: </label>
+          <input
+            ref={(element) => this.email = element}
+            placeholder="me@example.com"
+          />
+        </div>
+        <br />
 
           <div>
             <label>
@@ -213,4 +265,10 @@ const Style = {
   datePicker: {
     zIndex: -1,
   },
+  row: {
+    marginTop: 20,
+  },
+  bold: {
+    fontWeight: 'bold',
+  }
 };
