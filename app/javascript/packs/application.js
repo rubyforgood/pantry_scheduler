@@ -32,6 +32,7 @@ class App extends Component {
             <NavLink to="/directory" style={Style.navLink}> Directory</NavLink>
             <NavLink to="/new_appointment" style={Style.navLink}>New Appointment</NavLink>
             <NavLink to="/new_client" style={Style.navLink}>New Client</NavLink>
+            <NavLink to="/users/sign_out" onClick={this._signOut} style={Style.navLink}>Log Out</NavLink>
           </nav>
           <div style={Style.routeContainer}>
             <Route
@@ -47,10 +48,22 @@ class App extends Component {
               path="/appointments/:id/check_in"
               component={CheckIn}
             />
+            <Route
+              path="/users/sign_out"
+            />
           </div>
         </div>
       </Router>
     );
+  }
+
+  _signOut() {
+    $.ajax({
+      method: "GET",
+      url: "/users/sign_out",
+    }).done(function(){
+      location.reload();
+    });
   }
 }
 
