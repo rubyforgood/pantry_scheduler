@@ -48,9 +48,6 @@ class App extends Component {
               path="/appointments/:id/check_in"
               component={CheckIn}
             />
-            <Route
-              path="/users/sign_out"
-            />
           </div>
         </div>
       </Router>
