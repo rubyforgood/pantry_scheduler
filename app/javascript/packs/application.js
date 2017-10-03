@@ -58,10 +58,9 @@ class App extends Component {
   }
 
   _signOut() {
-    $.ajax({
-      method: "GET",
-      url: "/users/sign_out",
-    }).done(function(){
+    window.fetch("/users/sign_out", {
+      method: "GET"
+    }).then(function(){
       location.reload();
     });
   }
