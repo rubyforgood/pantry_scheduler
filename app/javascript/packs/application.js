@@ -32,6 +32,7 @@ class App extends Component {
             <NavLink to="/directory" style={Style.navLink}> Directory</NavLink>
             <NavLink to="/new_appointment" style={Style.navLink}>New Appointment</NavLink>
             <NavLink to="/new_client" style={Style.navLink}>New Client</NavLink>
+            <NavLink to="/users/sign_out" onClick={this._signOut} style={Style.navLink}>Log Out</NavLink>
           </nav>
           <div style={Style.routeContainer}>
             <Route
@@ -51,6 +52,14 @@ class App extends Component {
         </div>
       </Router>
     );
+  }
+
+  _signOut() {
+    window.fetch("/users/sign_out", {
+      method: "GET"
+    }).then(function(){
+      location.reload();
+    });
   }
 }
 
