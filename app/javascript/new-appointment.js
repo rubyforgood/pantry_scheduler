@@ -2,6 +2,7 @@ import React from 'react';
 import { includes } from 'lodash';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import {updateClient} from './api-calls'
 
 export default class NewAppointment extends React.Component {
   constructor(props) {
@@ -205,17 +206,35 @@ export default class NewAppointment extends React.Component {
     event.preventDefault();
 
     const blob = {
-        appointment: {
-          client_id: this.state.client.id,
-          time: this.state.appointmentDate,
-          num_adults: this.numAdults.value,
-          num_children: this.numChildren.value,
-          usda_qualifier: this.usdaQualifier.checked,
-          appointment_type: this.state.appointmentType,
-        },
-      }
+      appointment: {
+        client_id: this.state.client.id,
+        time: this.state.appointmentDate,
+        num_adults: this.numAdults.value,
+        num_children: this.numChildren.value,
+        usda_qualifier: this.usdaQualifier.checked,
+        appointment_type: this.state.appointmentType,
+      },
+    }
+    console.log(blob);
 
-      console.log(blob);
+    const updatedClient = {
+      client: {
+        first_name: this.firstName.value,
+        last_name: this.lastName.value,
+        address: this.address.value,
+        zip: this.address.value,
+        county: this.county.value,
+        phone_number: this.phoneNumber.value,
+        cell_number: this.cellNumber.value,
+        email: this.email.value,
+        num_adults: this.numAdults.value,
+        num_children: this.numChildren.value,
+        usda_qualifier: this.usdaQualifier.checked,
+      }
+    }
+
+    updateClient(this.state.client.id, updatedClient);
+
     fetch('/api/appointments', {
       method: 'POST',
       credentials: 'include',
