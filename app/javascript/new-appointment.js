@@ -59,9 +59,6 @@ export default class NewAppointment extends React.Component {
                       this.address.value = client.address;
                       this.zip.value = client.zip;
                       this.county.value = client.county;
-                      this.phoneNumber.value = client.phone_number;
-                      this.cellNumber.value = client.cell_number;
-                      this.email.value = client.email;
 
                       this.setState({
                         client: client,
@@ -98,27 +95,6 @@ export default class NewAppointment extends React.Component {
             <option value="HO">Howard</option>
             <option value="PG">Prince George</option>
           </select>
-        </div>
-        <div style={Style.row}>
-          <label style={Style.bold}>Phone </label>
-          <label>(H):</label>
-          <input
-            ref={(element) => this.phoneNumber = element}
-            placeholder="Home number"
-          />
-          {'  '}
-          <label>(C):</label>
-          <input
-            ref={(element) => this.cellNumber = element}
-            placeholder="Cell number"
-          />
-        </div>
-        <div>
-          <label>Email: </label>
-          <input
-            ref={(element) => this.email = element}
-            placeholder="me@example.com"
-          />
         </div>
         <br />
 
@@ -219,17 +195,9 @@ export default class NewAppointment extends React.Component {
 
     const updatedClient = {
       client: {
-        first_name: this.firstName.value,
-        last_name: this.lastName.value,
         address: this.address.value,
         zip: this.address.value,
-        county: this.county.value,
-        phone_number: this.phoneNumber.value,
-        cell_number: this.cellNumber.value,
-        email: this.email.value,
-        num_adults: this.numAdults.value,
-        num_children: this.numChildren.value,
-        usda_qualifier: this.usdaQualifier.checked,
+        county: this.county.value
       }
     }
 
