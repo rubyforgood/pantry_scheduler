@@ -2,6 +2,7 @@ import React from 'react';
 import { includes } from 'lodash';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import {updateClient} from './api-calls'
 
 export default class NewAppointment extends React.Component {
   constructor(props) {
@@ -55,6 +56,9 @@ export default class NewAppointment extends React.Component {
                       this.numAdults.value = client.num_adults;
                       this.numChildren.value = client.num_children;
                       this.usdaQualifier.checked = client.usda_qualifier;
+                      this.address.value = client.address;
+                      this.zip.value = client.zip;
+                      this.county.value = client.county;
 
                       this.setState({
                         client: client,
@@ -68,6 +72,31 @@ export default class NewAppointment extends React.Component {
               </ul>
             </div>
           </div>
+
+        <div style={Style.row}>
+          <label>Address: </label>
+          <input
+            ref={(element) => this.address = element}
+            placeholder="123 Main St"
+          />
+        </div>
+        <div>
+          <label>Zip: </label>
+          <input
+            ref={(element) => this.zip = element}
+            placeholder="#####"
+          />
+          <label> County: </label>
+          <select
+            ref={(element) => this.county = element}
+          >
+            <option />
+            <option value="AA">Anne Arundel</option>
+            <option value="HO">Howard</option>
+            <option value="PG">Prince George</option>
+          </select>
+        </div>
+        <br />
 
           <div>
             <label>
@@ -153,17 +182,27 @@ export default class NewAppointment extends React.Component {
     event.preventDefault();
 
     const blob = {
-        appointment: {
-          client_id: this.state.client.id,
-          time: this.state.appointmentDate,
-          num_adults: this.numAdults.value,
-          num_children: this.numChildren.value,
-          usda_qualifier: this.usdaQualifier.checked,
-          appointment_type: this.state.appointmentType,
-        },
-      }
+      appointment: {
+        client_id: this.state.client.id,
+        time: this.state.appointmentDate,
+        num_adults: this.numAdults.value,
+        num_children: this.numChildren.value,
+        usda_qualifier: this.usdaQualifier.checked,
+        appointment_type: this.state.appointmentType,
+      },
+    }
+    console.log(blob);
 
-      console.log(blob);
+    const updatedClient = {
+      client: {
+        address: this.address.value,
+        zip: this.address.value,
+        county: this.county.value
+      }
+    }
+
+    updateClient(this.state.client.id, updatedClient);
+
     fetch('/api/appointments', {
       method: 'POST',
       credentials: 'include',
@@ -213,4 +252,10 @@ const Style = {
   datePicker: {
     zIndex: -1,
   },
+  row: {
+    marginTop: 20,
+  },
+  bold: {
+    fontWeight: 'bold',
+  }
 };
