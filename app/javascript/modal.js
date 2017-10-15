@@ -23,6 +23,7 @@ const Style = {
   },
   modalOverlay: {
     position: 'fixed',
+    overflow: 'scroll',
     top: 0,
     bottom: 0,
     left: 0,
