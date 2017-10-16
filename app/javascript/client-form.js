@@ -11,7 +11,7 @@ export default class ClientForm extends Component {
     this.state = {
       saving: false,
       showNewNoteModal: false,
-      notes: this.props.notes,
+      notes: this.props.notes
     }
   }
 
@@ -72,7 +72,7 @@ export default class ClientForm extends Component {
       })
       .then(response => response.json())
       .then(json => {
-        var updatedClient = json.client;
+        let updatedClient = json.client;
         updatedClient.notes = this.state.notes;
         this.props.onSave(updatedClient);
       })
@@ -217,6 +217,7 @@ export default class ClientForm extends Component {
           </div>
         </form>
         {this.renderNewNoteModal()}
+        <UsdaAlert client={this.props.client} />
       </section>
     );
   }

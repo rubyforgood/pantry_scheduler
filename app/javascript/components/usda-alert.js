@@ -3,20 +3,20 @@ import React, { Component } from 'react';
 class UsdaAlert extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    
     this.validateUSDACert = this.validateUSDACert.bind(this)
   }
 
-  validateUSDACert () {
-    const usdaCertDate = new Date(this.props.clientInfo.usda_cert_date)
+  validateUSDACert() {
+    const usdaCertDate = new Date(this.props.client.usda_cert_date)
     const today = new Date()
     const usdaCertYear = usdaCertDate.getFullYear();
     const usdaCertMonth = usdaCertDate.getMonth()
     const usdaCertDay = usdaCertDate.getDate()
     const expirationDate = new Date(usdaCertYear + 1, usdaCertMonth, usdaCertDay)
     const isExpired = expirationDate < today
-    return (this.props.clientInfo.usda_qualifier === true) && 
-      (this.props.clientInfo.usda_cert_date === null || isExpired )
+    return (this.props.client.usda_qualifier === true) &&
+      (this.props.client.usda_cert_date === null || isExpired )
   }
 
   render() {

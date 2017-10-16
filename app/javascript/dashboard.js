@@ -139,9 +139,11 @@ export default class Dashboard extends React.Component {
 
   updateClient(client) {
     const index = _.findIndex(this.state.clients, ["id", client.id]);
-    this.state.clients.splice(index, 1, client)
+    let updatedClients = this.state.clients
+    updatedClients[index] = client
     this.setState({
-      clients: this.state.clients,
+      clients: updatedClients,
+      currentCheckIn: {client: client}
     })
   }
 
