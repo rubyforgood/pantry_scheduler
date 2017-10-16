@@ -22,7 +22,7 @@ class UsdaAlert extends Component {
   render() {
     const alertDiv = <div style={styles.usdaAlert}>
                       <h3>
-                        USDA certification is not signed or has expired
+                        USDA certification date needs to be updated
                       </h3>
                     </div>
     const alert = this.validateUSDACert() ? alertDiv : null

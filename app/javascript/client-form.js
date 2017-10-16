@@ -3,7 +3,7 @@ import { func, object } from 'prop-types';
 import Modal from 'modal';
 import NewNote from 'new-note';
 
-import UsdaAlert from './components/client-form/usda-alert.js';
+import UsdaAlert from './components/usda-alert.js';
 
 export default class ClientForm extends Component {
   constructor(props) {
@@ -198,7 +198,7 @@ export default class ClientForm extends Component {
 
           <div>
             { this.props.client.usda_cert_date
-              ? <label>USDA Cert Date: </label>
+              ? <label>USDA Cert Date: {this.props.client.usda_cert_date}</label>
               : null
             }
           </div>
