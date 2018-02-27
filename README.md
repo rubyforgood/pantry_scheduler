@@ -1,4 +1,9 @@
 [![Build Status](https://travis-ci.org/rubyforgood/pantry_scheduler.svg?branch=master)](https://travis-ci.org/rubyforgood/pantry_scheduler) [![Stories in Ready](https://img.shields.io/waffle/label/rubyforgood/pantry_scheduler/ready.svg?label=Ready)](https://waffle.io/rubyforgood/pantry_scheduler?utm_source=badge)
+
+
+# NOTE: THIS PROJECT IS ON HOLD DUE TO NEW USDA REGULATIONS REQUIRING THE ELIZABETH HOUSE TO USE GOVERNMENT PROVIDED SOFTWARE.
+
+
 # pantry_scheduler
 
 Tracking issues in priority can be found here https://waffle.io/rubyforgood/pantry_scheduler.
