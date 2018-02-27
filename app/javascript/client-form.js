@@ -3,14 +3,15 @@ import { func, object } from 'prop-types';
 import Modal from 'modal';
 import NewNote from 'new-note';
 
+import UsdaAlert from './components/usda-alert.js';
+
 export default class ClientForm extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       saving: false,
       showNewNoteModal: false,
-      notes: this.props.notes,
+      notes: this.props.notes
     }
   }
 
@@ -71,7 +72,7 @@ export default class ClientForm extends Component {
       })
       .then(response => response.json())
       .then(json => {
-        var updatedClient = json.client;
+        let updatedClient = json.client;
         updatedClient.notes = this.state.notes;
         this.props.onSave(updatedClient);
       })
@@ -82,7 +83,7 @@ export default class ClientForm extends Component {
 
   render() {
     return (
-      <div>
+      <section style={styles.clientInfoBox}>
         <form>
           <div>
             <h2>Client Information</h2>
@@ -197,7 +198,7 @@ export default class ClientForm extends Component {
 
           <div>
             { this.props.client.usda_cert_date
-              ? <label>USDA Cert Date: </label>
+              ? <label>USDA Cert Date: {this.props.client.usda_cert_date}</label>
               : null
             }
           </div>
@@ -216,7 +217,8 @@ export default class ClientForm extends Component {
           </div>
         </form>
         {this.renderNewNoteModal()}
-      </div>
+        <UsdaAlert client={this.props.client} />
+      </section>
     );
   }
 
@@ -283,5 +285,9 @@ const styles = {
   },
   newNoteField: {
     width: '100%',
+  },
+  clientInfoBox: {
+    display: 'flex',
+    flexDirection: 'row'
   },
 };

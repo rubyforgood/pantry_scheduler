@@ -38,17 +38,19 @@ class API::ClientsController < APIController
   private
 
   def client_params
-    params
-      .require(:client)
-      .permit(
-        :first_name,
-        :last_name,
-        :address,
-        :county,
-        :zip,
-        :num_adults,
-        :num_children,
-        :usda_qualifier,
-      )
+    params.require(:client)
+          .permit(
+            :first_name,
+            :last_name,
+            :address,
+            :county,
+            :zip,
+            :num_adults,
+            :num_children,
+            :usda_qualifier,
+            :phone_number,
+            :cell_number,
+            :email
+          )
   end
 end
